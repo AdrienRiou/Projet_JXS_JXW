@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LateralPanelComponent implements OnInit {
 
+  google_auth : boolean = false;
   constructor() { }
 
   ngOnInit() {
