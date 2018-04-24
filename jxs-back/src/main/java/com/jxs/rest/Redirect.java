@@ -23,30 +23,32 @@ public class Redirect {
     public String getIt(@QueryParam("code") String code) {
         String CLIENT_ID = "";
         String CLIENT_SECRET = "";
-        String res = "";
         try {
-            URL url =  new URL("https://www.googleapis.com/oauth2/v4/token");
+
+            System.out.println("CODE ===== " + code);
+            String url =  "https://www.googleapis.com/oauth2/v4/token";
             CLIENT_ID = "752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com";
             CLIENT_SECRET = "DJ_Ju7W9iF5HL8BYO32mwnxA";
 
 
-            JSONObject paramJson = new JSONObject();
-            paramJson.put("code", code);
-            paramJson.put("client_id", CLIENT_ID);
-            paramJson.put("client_secret", CLIENT_SECRET);
-            paramJson.put("redirect_uri", REDIRECT_URI);
-            paramJson.put("grant_type", "authorization_code");
+            String params = "code="+code
+                    +"&client_id="+CLIENT_ID
+                    +"&client_secret="+CLIENT_SECRET
+                    +"&redirect_uri="+REDIRECT_URI
+                    +"&grant_type=authorization_code";
 
             Map<String,String> properties = new HashMap<String,String>();
-            properties.put("Content-Type", "application/json");
+            properties.put("Content-Length", params.getBytes().length+"");
+            properties.put("Content-Type", "application/x-www-form-urlencoded");
 
-            String result = HttpRequest.post("https://api.dropboxapi.com/2/file_requests/get",  paramJson.toString(), properties);
+            String result = HttpRequest.post("https://www.googleapis.com/oauth2/v4/token",  params.toString(), properties);
 
 
             JSONObject jsonToken = new JSONObject(result);
 
             this.google_token = jsonToken.getString("access_token");
             System.out.println("GOT TOKEN : " + this.google_token);
+
 
         } catch (Exception e) {
             e.printStackTrace();
