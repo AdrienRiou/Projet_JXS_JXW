@@ -6,10 +6,10 @@ import { AppComponent } from './app.component';
 import { LateralPanelComponent } from './lateral-panel/lateral-panel.component';
 import { FilesDisplayComponent } from './files-display/files-display.component';
 import { FileInfoComponent } from './file-info/file-info.component';
-
-
+import { HttpClientModule } from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
+import { ApiService } from './api.service'
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,10 +19,12 @@ import {FlexLayoutModule} from '@angular/flex-layout';
   ],
   imports: [
     BrowserModule,
-    NgbModule.forRoot(),
-    FlexLayoutModule
+    FlexLayoutModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    ApiService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
