@@ -1,69 +1,118 @@
 package com.jxs.rest;
 
-
-import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
-/*
-*This class simplifies http requests*/
 public class HttpRequest {
+    public static String get(String url, String parameters, Map<String,String> properties) throws IOException{
+        URL u = new URL(url+parameters);
+        HttpURLConnection con = (HttpURLConnection) u.openConnection();
+        con.setRequestMethod("GET");
+        con.setConnectTimeout(5000);
+        con.setReadTimeout(5000);
 
-
-    public static String getURL(String url, Map<String, String> parameters) {
-        String res = "";
-        try {
-            URL u = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) u.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            DataOutputStream out = new DataOutputStream(connection.getOutputStream());
-            out.writeBytes(HttpRequest.getParamsString(parameters));
-            out.flush();
-            out.close();
-
-           // connection.setRequestProperty("Content-Type", "application/json");
-
-            BufferedReader in = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-            StringBuffer content = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                content.append(inputLine);
+        if(properties != null){
+            Iterator<Entry<String, String>> it = properties.entrySet().iterator();
+            while (it.hasNext()) {
+                Entry<String, String> pair = it.next();
+                con.setRequestProperty(pair.getKey().toString(), pair.getValue().toString());
             }
-            in.close();
-            connection.disconnect();
-            res = content.toString();
-
-
-        } catch(Exception e) {
-            e.printStackTrace();
         }
 
-        return res;
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        con.getInputStream())
+        );
+        String inputLine;
+
+        String source="";
+        while ((inputLine = in.readLine()) != null)
+            source +=inputLine;
+
+        in.close();
+        return source;
     }
 
-    public static String getParamsString(Map<String, String> params)
-            throws UnsupportedEncodingException {
-        StringBuilder result = new StringBuilder();
+    public static String delete(String url, String parameters) throws IOException{
+        URL u = new URL(url+parameters);
+        HttpURLConnection con = (HttpURLConnection) u.openConnection();
+        con.setRequestMethod("DELETE");
+        con.setConnectTimeout(5000);
+        con.setReadTimeout(5000);
 
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-            result.append("=");
-            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-            result.append("&");
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        con.getInputStream())
+        );
+        String inputLine;
+
+        String source="";
+        while ((inputLine = in.readLine()) != null)
+            source +=inputLine;
+
+        in.close();
+        return source;
+    }
+
+    public static String post(String url, String parameters, Map<String,String> properties) throws IOException{
+        HttpURLConnection connection = null;
+        try {
+            //Create connection
+            URL u = new URL(url);
+            connection = (HttpURLConnection)u.openConnection();
+            connection.setRequestMethod("POST");
+
+            if(properties != null){
+                Iterator<Entry<String, String>> it = properties.entrySet().iterator();
+                while (it.hasNext()) {
+                    Entry<String, String> pair = it.next();
+                    connection.setRequestProperty(pair.getKey().toString(), pair.getValue().toString());
+                }
+            }
+
+            connection.setDoOutput(true);
+
+            //Send request
+            DataOutputStream wr = new DataOutputStream (connection.getOutputStream ());
+            wr.writeBytes (parameters);
+            wr.flush ();
+            if (wr != null)
+                wr.close();
+
+            //Get Response
+            InputStream is = connection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+            String line;
+            StringBuffer response = new StringBuffer();
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append('\r');
+            }
+            rd.close();
+
+            return response.toString();
+        } catch (MalformedURLException e) {
+
+            e.printStackTrace();
+            return e.getMessage();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            return e.getMessage();
+        } finally {
+            if(connection != null) {
+                connection.disconnect();
+            }
         }
-
-        String resultString = result.toString();
-        return resultString.length() > 0
-                ? resultString.substring(0, resultString.length() - 1)
-                : resultString;
     }
 }
