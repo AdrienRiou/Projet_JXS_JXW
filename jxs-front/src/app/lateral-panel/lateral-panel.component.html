@@ -1,27 +1,15 @@
-<!--<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Titre de la page</title>
-  <link href="../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="../bootstrap/dist/js/jquery.js"></script>
-  <script src="../bootstrap/dist/js/bootstrap.min.js"></script>
-</head>
-<body> -->
-  <div fxLayout="column" fxFlexAlign="center">
-    <div class="card">
-      <div class="card-body">
-        <div *ngIf="!google_auth">
-          <a target="_blank" href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.metadata.readonly&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a>
-        </div>
-        <div *ngIf="google_auth">
-          <button type="button" class="btn btn-success">GoogleDrive connecté !</button>
-        </div>
-        <!-- <a href="https://login.live.com/oauth20_authorize.srf?client_id=1be2662e-496c-42fc-9040-1dbb47b423d0&scope=onedrive.readwrite&response_type=token&redirect_uri=http://localhost:8080"> <button type="button" class="btn btn-warning">OneDrive non connecté</button> </a> -->
-        <!-- <a href="https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=eejunrl276f5dbd&redirect_uri=http://localhost:8080"> <button type="button" class="btn btn-warning">DropBox non connecté</button></a> -->
+
+<div fxLayout="column" fxFlexAlign="center">
+  <div class="card">
+    <div class="card-body">
+      <div *ngIf="!google_auth">
+        <a target="_blank" href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a>
       </div>
+      <div *ngIf="google_auth">
+        <button type="button" class="btn btn-success">GoogleDrive connecté !</button>
+      </div>
+      <!-- <a href="https://login.live.com/oauth20_authorize.srf?client_id=1be2662e-496c-42fc-9040-1dbb47b423d0&scope=onedrive.readwrite&response_type=token&redirect_uri=http://localhost:8080"> <button type="button" class="btn btn-warning">OneDrive non connecté</button> </a> -->
+      <!-- <a href="https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=eejunrl276f5dbd&redirect_uri=http://localhost:8080"> <button type="button" class="btn btn-warning">DropBox non connecté</button></a> -->
     </div>
   </div>
-<!--</body>
-</html> -->
-
+</div>
