@@ -1,3 +1,10 @@
-<p>
-  files-display works!
-</p>
+<h2> My Files </h2>
+    <ul class=".selected">
+      <li *ngFor="let FileClass of listFilesAttr"
+        [class.selected]="FileClass === selectedFile"
+        (click)="onSelect(FileClass)">
+        <a routerLink="/fichier-detail"></a>
+        <span class="badge">{{FileClass.id}}</span> {{FileClass.name}}
+
+      </li>
+    </ul>

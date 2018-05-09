@@ -1,30 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import {SharedService} from './shared.service'
+
 
 import { AppComponent } from './app.component';
-import { LateralPanelComponent } from './lateral-panel/lateral-panel.component';
 import { FilesDisplayComponent } from './files-display/files-display.component';
+import { LateralPanelComponent } from './lateral-panel/lateral-panel.component';
 import { FileInfoComponent } from './file-info/file-info.component';
-import { HttpClientModule } from '@angular/common/http';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import { FichierDetailComponent } from './fichier-detail/fichier-detail.component';
+import { AppRoutingModule } from './app-routing.module';
 
-import { ApiService } from './api.service'
+
 @NgModule({
   declarations: [
     AppComponent,
-    LateralPanelComponent,
     FilesDisplayComponent,
-    FileInfoComponent
+    LateralPanelComponent,
+    FileInfoComponent,
+    FichierDetailComponent
   ],
   imports: [
     BrowserModule,
-    FlexLayoutModule,
-    HttpClientModule,
+    FormsModule,
+    AppRoutingModule
   ],
-  providers: [
-    ApiService
-  ],
+  providers: [SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
