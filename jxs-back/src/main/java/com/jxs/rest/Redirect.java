@@ -15,7 +15,7 @@ public class Redirect {
     public static final String REDIRECT_URI = "http://localhost:8080/rest/redirect/google";
     public static final String CLIENT_URL = "http://localhost:4200";
 
-    private String google_token;
+    public static String google_token;
 
     @GET
     @Path("google")
