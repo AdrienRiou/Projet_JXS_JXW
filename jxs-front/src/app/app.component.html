@@ -1,12 +1,15 @@
 <div fxLayout="column" fxFlexGap="15px" >
+
   <div class="main" fxLayout="row" fxFlexAlign="stretch">
       <div fxFlex="15%" fxFlex.xs="50%">
           <app-lateral-panel fxFlex="100%"></app-lateral-panel>
       </div>
-
-      <div>
-        <app-files-display></app-files-display>
-      </div>
   </div>
-  <app-file-info></app-file-info>
+  <nav>
+    <a routerLink="/home">home</a>
+    <a routerLink="/fichier-detail">fichier-detail2</a>
+  </nav>
+  <router-outlet></router-outlet>
+
+
 </div>
