@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 }*/)
 export class SharedService {
     public fileSource = new BehaviorSubject<FileClass>({ id: 11, name: 'file11' });
-    private non = ""
+  
     currentFile = this.fileSource.asObservable();
 
      constructor() {

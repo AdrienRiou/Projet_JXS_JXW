@@ -8,6 +8,7 @@ import {FilesDisplayComponent} from './files-display/files-display.component'
 
 
 const routes: Routes =[
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {path:'home', component:FilesDisplayComponent },
   {path:'fichier-detail', component: FichierDetailComponent}
 ];

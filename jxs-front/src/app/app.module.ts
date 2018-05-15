@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {SharedService} from './shared.service'
+import {SharedService} from './shared.service';
+import {FileService} from './file.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import { AppComponent } from './app.component';
@@ -10,6 +12,9 @@ import { LateralPanelComponent } from './lateral-panel/lateral-panel.component';
 import { FileInfoComponent } from './file-info/file-info.component';
 import { FichierDetailComponent } from './fichier-detail/fichier-detail.component';
 import { AppRoutingModule } from './app-routing.module';
+
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+
 
 
 @NgModule({
@@ -23,9 +28,11 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
+
   ],
-  providers: [SharedService],
+  providers: [SharedService, FileService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
