@@ -29,7 +29,7 @@ export class FichierDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.fs.tryParsing().subscribe(data  => { this.data = data;
+    this.fs.getAllFiles().subscribe(data  => { this.data = data;
       /*this.data.forEach(elem => {console.log("jsp" + el.html_url)*/
       this.data.forEach(elem => {
         let size = elem.size;
