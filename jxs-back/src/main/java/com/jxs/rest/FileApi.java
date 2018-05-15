@@ -80,18 +80,19 @@ public class FileApi {
 
     @GET
     @Path("/{service}/remove/{id}")
-    @Produces("application/json")
     public Response removeFile(@PathParam("service") String service, @PathParam("id") String id) {
-        String res = "";
+        JSONObject json = new JSONObject();
         if(service.equalsIgnoreCase("google")) {
             try {
-                res = HttpRequest.delete(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.google_token);
+                HttpRequest.delete(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.google_token);
+                json.put("error", 0);
             } catch (IOException e) {
-                e.printStackTrace();
+                json.put("error", 1);
             }
         }
-        return Response.ok(res, MediaType.APPLICATION_JSON).build();
+        return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
     }
+
 
 
     /**
