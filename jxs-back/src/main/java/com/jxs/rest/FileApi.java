@@ -1,6 +1,7 @@
 package com.jxs.rest;
 
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -25,7 +26,8 @@ public class FileApi {
         String res = "";
         if ( service.equalsIgnoreCase("google")) {
             try {
-                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?access_token="+Redirect.google_token, null);
+                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.google_token, null);
+                System.out.println(this.universalizeGoogleJsonFile(res));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -89,6 +91,49 @@ public class FileApi {
             }
         }
         return Response.ok(res, MediaType.APPLICATION_JSON).build();
+    }
+
+
+    /**
+     * Transform the google REST API JSON response to our universal format, easier to process by the frontend
+     * @param raw the json data to transform
+     * @return the universal JSON data
+     */
+    private String universalizeGoogleJsonFile(String raw) {
+        String res = "";
+        JSONObject json = new JSONObject(raw);
+        JSONObject json_res = new JSONObject();
+        json_res.put("files", new JSONArray());
+        for (int i = 0; i < json.getJSONArray("files").length() ; i++ ) {
+            JSONObject tmp = new JSONObject();
+            JSONObject current = (JSONObject) json.getJSONArray("files").get(i);
+            // ID
+            tmp.put("id", current.get("id"));
+            // name
+            tmp.put("name", current.get("name"));
+            //size
+            tmp.put("size", current.get("quotaBytesUsed"));
+            // authors
+            tmp.put("authors", new JSONArray());
+            JSONArray authors = current.getJSONArray("owners");
+            for (int j = 0; j < authors.length() ; j++ ) {
+                tmp.getJSONArray("authors").put(authors.getJSONObject(j).get("displayName"));
+            }
+            // creation date
+            tmp.put("creationDate", current.get("createdTime"));
+            // last edit date
+            tmp.put("lastEditDate", current.get("modifiedTime"));
+
+
+            // add the file to the array
+            json_res.getJSONArray("files").put(tmp);
+
+
+        }
+
+
+        res = json_res.toString();
+        return res;
     }
 
 }
