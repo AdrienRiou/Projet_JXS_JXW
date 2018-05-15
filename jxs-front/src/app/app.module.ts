@@ -13,7 +13,6 @@ import { FileInfoComponent } from './file-info/file-info.component';
 import { FichierDetailComponent } from './fichier-detail/fichier-detail.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 
 

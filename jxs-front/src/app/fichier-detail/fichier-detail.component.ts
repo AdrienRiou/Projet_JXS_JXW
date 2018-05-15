@@ -18,7 +18,8 @@ export class FichierDetailComponent implements OnInit {
   subscription : any
   fs : FileService
   route: ActivatedRoute
-  file: FileClass = { id: 11, name: 'file11' };
+  file: FileClass = {name:"name", id:"id", lastEditDate:"lastEditDate", size:"size",
+  creationDate:"creationDate", authors:[]};
   data : any ={};
 
   constructor(ss: SharedService, local: Location, fs :FileService) {
@@ -28,9 +29,19 @@ export class FichierDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.fs.tryParsing().subscribe(data  => {this.data = data;
-      let x = this.data[0];
-      console.log("goBack " + x)});
+    this.fs.tryParsing().subscribe(data  => { this.data = data;
+      /*this.data.forEach(elem => {console.log("jsp" + el.html_url)*/
+      this.data.forEach(elem => {
+        let size = elem.size;
+        let lastEditDate = elem.lastEditDate;
+        let id = elem.id;
+        let name = elem.name;
+        let creationDate = elem.creationDate;
+        let authors = elem.authors;
+        this.fs.addListFiles({name:name, id:id, lastEditDate:lastEditDate, size:size,
+        creationDate:creationDate, authors:authors })
+      });
+    });
 
               // here result would have json object that was parsed by map handler...
 

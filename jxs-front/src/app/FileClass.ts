@@ -1,4 +1,8 @@
 export class FileClass{
     name: string
-    id: number
+    id: string
+    size: string
+    lastEditDate: string
+    creationDate: string
+    authors: string[]
 }

@@ -1,14 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {ListFiles} from '../ListFiles'
 import {FileClass} from '../FileClass'
 import {SharedService} from '../shared.service'
+import {FileService} from '../file.service'
+
 @Component({
   selector: 'app-files-display',
   templateUrl: './files-display.component.html',
   styleUrls: ['./files-display.component.css']
 })
 export class FilesDisplayComponent implements OnInit {
-  listFilesAttr = ListFiles;
+  fs : FileService
+  listFilesAttr = this.fs.getListFiles();
   selectedFile : FileClass;
   ss : SharedService
   constructor(ss: SharedService) {
