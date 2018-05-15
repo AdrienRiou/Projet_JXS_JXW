@@ -39,7 +39,7 @@ export class FileService {
   }
   getAllFiles(){
     const url = `${this.fileUrl}/all`;
-    return this.http.get<FileClass>(this.fileUrl);
+    return this.http.get(this.fileUrl);
   }
 
 }
