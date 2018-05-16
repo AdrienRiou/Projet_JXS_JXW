@@ -12,7 +12,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class FileService {
   http : HttpClient ;
-  fileUrl = 'http://localhost:8080/rest/api/google';
+  fileUrl = 'https://jxs-back.herokuapp.com/rest/api/google';
   listFiles : FileClass[] = [];
   constructor(http : HttpClient
   ) {

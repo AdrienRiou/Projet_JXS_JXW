@@ -39,6 +39,25 @@ public class FileApi {
     }
 
     @GET
+    @Path("/{service}/root")
+    @Produces("application/json")
+    public Response getRootFiles(@PathParam("service") String service) {
+        String res = "";
+        if ( service.equalsIgnoreCase("google")) {
+            try {
+                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.google_token+"&q=%27root%27%20in%20parents", null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return Response.ok(this.universalizeGoogleJsonFile(res), MediaType.APPLICATION_JSON)
+                .build();
+
+
+    }
+
+    @GET
     @Path("/{service}/file/{id}")
     @Produces("application/json")
     public Response getFile(@PathParam("service") String service, @PathParam("id") String id) {
