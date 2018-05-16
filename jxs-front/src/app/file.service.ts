@@ -26,8 +26,8 @@ export class FileService {
   }
 
   getFile(id: number):Observable<FileClass[]>{
-    const url = `${this.fileUrl}/file/${id}`;
-    return this.http.get<FileClass[]>(this.fileUrl);
+    const url = this.fileUrl+"/file/"+id;
+    return this.http.get<FileClass[]>(url);
 
 
 
@@ -38,8 +38,8 @@ export class FileService {
       */
   }
   getAllFiles(){
-    const url = `${this.fileUrl}/all`;
-    return this.http.get(this.fileUrl);
+    const url = this.fileUrl+"/all";
+    return this.http.get(url);
   }
 
 }

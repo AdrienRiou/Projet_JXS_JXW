@@ -30,6 +30,7 @@ export class FichierDetailComponent implements OnInit {
 
   goBack(): void {
     this.fs.getAllFiles().subscribe(data  => { this.data = data;
+      console.log(data);
       /*this.data.forEach(elem => {console.log("jsp" + el.html_url)*/
       this.data.files.forEach(elem => {
         let size = elem.size;

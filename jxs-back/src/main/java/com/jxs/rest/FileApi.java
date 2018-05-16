@@ -33,7 +33,9 @@ public class FileApi {
             }
 
         }
-        return Response.ok(res, MediaType.APPLICATION_JSON).build();
+        return Response.ok(res, MediaType.APPLICATION_JSON)
+                .header("Access-Control-Allow-Origin", "*")
+                .build();
 
 
     }
