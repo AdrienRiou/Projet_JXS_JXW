@@ -27,14 +27,12 @@ public class FileApi {
         if ( service.equalsIgnoreCase("google")) {
             try {
                 res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.google_token, null);
-                System.out.println(this.universalizeGoogleJsonFile(res));
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
         }
-        return Response.ok(res, MediaType.APPLICATION_JSON)
-                .header("Access-Control-Allow-Origin", "*")
+        return Response.ok(this.universalizeGoogleJsonFile(res), MediaType.APPLICATION_JSON)
                 .build();
 
 

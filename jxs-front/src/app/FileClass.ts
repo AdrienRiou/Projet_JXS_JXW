@@ -6,3 +6,7 @@ export class FileClass{
     creationDate: string
     authors: string[]
 }
+
+export interface  FileListClass {
+  files : FileClass[]
+}

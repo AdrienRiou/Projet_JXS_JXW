@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FileClass } from '../FileClass';
+import { FileClass, FileListClass } from '../FileClass';
 import {SharedService} from '../shared.service'
 import { Location } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
@@ -18,9 +18,7 @@ export class FichierDetailComponent implements OnInit {
   subscription : any
   fs : FileService
   route: ActivatedRoute
-  file: FileClass = {name:"name", id:"id", lastEditDate:"lastEditDate", size:"size",
-  creationDate:"creationDate", authors:[]};
-  data : any ={};
+  files  : FileListClass;
 
   constructor(ss: SharedService, local: Location, fs :FileService) {
       this.ss = ss
@@ -29,32 +27,16 @@ export class FichierDetailComponent implements OnInit {
   }
 
   goBack(): void {
-    this.fs.getAllFiles().subscribe(data  => { this.data = data;
-      console.log(data);
-      /*this.data.forEach(elem => {console.log("jsp" + el.html_url)*/
-      this.data.files.forEach(elem => {
-        let size = elem.size;
-        let lastEditDate = elem.lastEditDate;
-        let id = elem.id;
-        let name = elem.name;
-        let creationDate = elem.creationDate;
-        let authors = elem.authors;
-        this.fs.addListFiles({name:name, id:id, lastEditDate:lastEditDate, size:size,
-        creationDate:creationDate, authors:authors })
-      });
+    this.fs.getAllFiles().subscribe(data  => {
+      this.files = <FileListClass>data;
     });
-
-              // here result would have json object that was parsed by map handler...
-
-
-    this.local.back();
   }
   ngOnInit() {
-    this.ss.fileSource.subscribe(file => {
+  /*  this.ss.fileSource.subscribe(file => {
       console.log(file)
       this.file = file
     });
-
+*/
 
   }
 

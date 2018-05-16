@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable} from 'rxjs';
-import {FileClass} from './FileClass';
+import {FileClass, FileListClass} from './FileClass';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
@@ -12,7 +12,7 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class FileService {
   http : HttpClient ;
-  fileUrl = 'localhost:8080/rest/api/google';
+  fileUrl = 'http://localhost:8080/rest/api/google';
   listFiles : FileClass[] = [];
   constructor(http : HttpClient
   ) {
@@ -39,7 +39,9 @@ export class FileService {
   }
   getAllFiles(){
     const url = this.fileUrl+"/all";
-    return this.http.get(url);
+    return this.http.get<FileListClass>(url);
+
+
   }
 
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import {FileClass} from '../FileClass'
+import {FileListClass, FileClass} from '../FileClass'
 import {SharedService} from '../shared.service'
 import {FileService} from '../file.service'
 
@@ -10,10 +10,11 @@ import {FileService} from '../file.service'
 })
 export class FilesDisplayComponent implements OnInit {
   fs : FileService
-  listFilesAttr = this.fs.getListFiles();
+  files : FileListClass;
   selectedFile : FileClass;
   ss : SharedService
-  constructor(ss: SharedService) {
+  constructor(ss: SharedService, fs : FileService) {
+    this.fs = fs;
     this.ss = ss;
   }
   onSelect(fileParam : FileClass ):void{
@@ -46,6 +47,9 @@ export class FilesDisplayComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fs.getAllFiles().subscribe(data  => {
+      this.files = <FileListClass>data;
+    });
   }
 
 }
