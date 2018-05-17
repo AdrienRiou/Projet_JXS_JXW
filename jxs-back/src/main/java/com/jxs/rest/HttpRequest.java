@@ -20,13 +20,7 @@ public class HttpRequest {
         con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
 
-        if(properties != null){
-            Iterator<Entry<String, String>> it = properties.entrySet().iterator();
-            while (it.hasNext()) {
-                Entry<String, String> pair = it.next();
-                con.setRequestProperty(pair.getKey().toString(), pair.getValue().toString());
-            }
-        }
+        checkProperties(properties, con);
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(
@@ -40,6 +34,16 @@ public class HttpRequest {
 
         in.close();
         return source;
+    }
+
+    private static void checkProperties(Map<String, String> properties, HttpURLConnection con) {
+        if(properties != null){
+            Iterator<Entry<String, String>> it = properties.entrySet().iterator();
+            while (it.hasNext()) {
+                Entry<String, String> pair = it.next();
+                con.setRequestProperty(pair.getKey(), pair.getValue());
+            }
+        }
     }
 
     public static String delete(String url, String parameters) throws IOException{
@@ -71,13 +75,7 @@ public class HttpRequest {
             connection = (HttpURLConnection)u.openConnection();
             connection.setRequestMethod("POST");
 
-            if(properties != null){
-                Iterator<Entry<String, String>> it = properties.entrySet().iterator();
-                while (it.hasNext()) {
-                    Entry<String, String> pair = it.next();
-                    connection.setRequestProperty(pair.getKey().toString(), pair.getValue().toString());
-                }
-            }
+            checkProperties(properties, connection);
 
             connection.setDoOutput(true);
 

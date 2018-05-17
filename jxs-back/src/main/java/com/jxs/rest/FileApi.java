@@ -5,7 +5,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.HashMap;
@@ -156,4 +158,51 @@ public class FileApi {
         return res;
     }
 
+
+    @GET
+    @Path("/connect")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response connect(@QueryParam("pseudo") String pseudo) {
+        NewCookie cookie = new NewCookie("pseudo", pseudo);
+        JSONObject json = new JSONObject();
+
+
+        json.put("pseudo", pseudo);
+        Redirect.loginDatabase.addUser(pseudo);
+        if ( Redirect.loginDatabase.getLoggedUsers().contains(pseudo) ) {
+            json.put("error", 1);
+            json.put("errorMessage" ,  "User already connected");
+            return Response.ok(json.toString()).build();
+        } else {
+            json.put("error", 0);
+            Redirect.loginDatabase.addLoggedUser(pseudo);
+        }
+
+
+        return Response.ok(json.toString()).cookie(cookie).build();
+    }
+
+
+    @GET
+    @Path("/disconnect")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response disconnect(@CookieParam("pseudo") Cookie cookie ) {
+        if ( cookie != null ) {
+            Redirect.loginDatabase.unlogUser(cookie.getValue());
+            NewCookie newCookie = new NewCookie(cookie, null, -1, false);
+            return Response.ok("Disconnected").cookie(newCookie).build();
+        }
+        return  Response.ok("Not connected").build();
+
+    }
+    @GET
+    @Path("/testcookie")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response foo(@CookieParam("pseudo") Cookie cookie) {
+        if (cookie == null) {
+            return Response.serverError().entity("ERROR COOKIE NOT FOUND").build();
+        } else {
+            return Response.ok(cookie.getValue()).build();
+        }
+    }
 }

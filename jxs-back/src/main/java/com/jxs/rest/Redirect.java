@@ -12,10 +12,10 @@ import java.util.Map;
 @Path("redirect")
 public class Redirect {
 
-    public static final String REDIRECT_URI = "http://localhost:8080/rest/redirect/google";
+    public static final String REDIRECT_URI = "https://jxs-back.herokuapp.com/rest/redirect/google";
     public static final String CLIENT_URL = "http://localhost:4200";
-
-    public static String google_token;
+    public static String google_token = " ";
+    public static Login loginDatabase = new Login();
 
     @GET
     @Path("google")
@@ -23,6 +23,7 @@ public class Redirect {
     public String getIt(@QueryParam("code") String code) {
         String CLIENT_ID = "";
         String CLIENT_SECRET = "";
+        String google_token;
         try {
 
             System.out.println("CODE ===== " + code);
@@ -46,8 +47,8 @@ public class Redirect {
 
             JSONObject jsonToken = new JSONObject(result);
 
-            this.google_token = jsonToken.getString("access_token");
-            System.out.println("GOT TOKEN : " + this.google_token);
+            google_token = jsonToken.getString("access_token");
+
 
 
         } catch (Exception e) {
