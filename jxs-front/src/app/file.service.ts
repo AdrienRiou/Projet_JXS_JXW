@@ -32,6 +32,12 @@ export class FileService {
 
 
   }
+
+  removeFile(id : String){
+    const url = this.fileUrl+"/remove/" + id;
+    console.log("remove : this.http.get(url) : " + url);
+    return this.http.get(url);
+  }
   tryParsing(){
       return this.http.get("https://api.github.com/users/mralexgray/repos")/*
       .map(res => {console.log("testTryparsing "+JSON.stringify(res[0].html_url))})

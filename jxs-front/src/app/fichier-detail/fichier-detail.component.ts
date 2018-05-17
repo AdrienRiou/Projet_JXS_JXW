@@ -19,11 +19,14 @@ export class FichierDetailComponent implements OnInit {
   fs : FileService
   route: ActivatedRoute
   files  : FileListClass;
+  file : FileClass /*= {name:"name", id:"id", lastEditDate:"lastEditDate", size:"size",
+  creationDate:"creationDate", authors:[]  }*/;
 
   constructor(ss: SharedService, local: Location, fs :FileService) {
       this.ss = ss
       this.local= local
       this.fs = fs
+
   }
 
   goBack(): void {
@@ -31,7 +34,15 @@ export class FichierDetailComponent implements OnInit {
       this.files = <FileListClass>data;
     });
   }
+
+  delete():void{
+    this.fs.removeFile(this.ss.fileSource.getValue().id).subscribe();
+    console.log(this.ss.fileSource.getValue().id);
+  }
   ngOnInit() {
+    this.ss.fileSource.subscribe(file =>
+      this.file = file)
+      console.log("ngOnInit " + this.file)
   /*  this.ss.fileSource.subscribe(file => {
       console.log(file)
       this.file = file
