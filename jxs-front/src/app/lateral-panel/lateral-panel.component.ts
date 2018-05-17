@@ -13,4 +13,8 @@ export class LateralPanelComponent implements OnInit {
   ngOnInit() {
   }
 
+  addUser() {
+
+  }
+
 }

@@ -17,6 +17,13 @@
         <div *ngIf="google_auth">
           <button type="button" class="btn btn-success">GoogleDrive connecté !</button>
         </div>
+        <form>
+          <div>
+            User:<br>
+            <input type="text" id="newUser"><br>
+            <button (click)="addUser()">Submit</button>
+          </div>
+        </form>
         <!-- <a href="https://login.live.com/oauth20_authorize.srf?client_id=1be2662e-496c-42fc-9040-1dbb47b423d0&scope=onedrive.readwrite&response_type=token&redirect_uri=http://localhost:8080"> <button type="button" class="btn btn-warning">OneDrive non connecté</button> </a> -->
         <!-- <a href="https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=eejunrl276f5dbd&redirect_uri=http://localhost:8080"> <button type="button" class="btn btn-warning">DropBox non connecté</button></a> -->
       </div>
