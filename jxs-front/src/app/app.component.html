@@ -1,15 +1,22 @@
-<div fxLayout="column" fxFlexGap="15px" >
 
-  <div class="main" fxLayout="row" fxFlexAlign="stretch">
-      <div fxFlex="15%" fxFlex.xs="50%">
-          <app-lateral-panel fxFlex="100%"></app-lateral-panel>
-      </div>
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>Project JXS-JXW</h1>
+    <h2>File sharing</h2>
   </div>
+</div>
 
-  <nav>
-    <a routerLink="/home">home</a>
-    <a routerLink="/fichier-detail">fichier-detail2</a>
-  </nav>
-  <router-outlet></router-outlet>
+<div class="container">
+  <div class="col-lg-3">
+    <app-lateral-panel></app-lateral-panel>
 
+    <nav>
+      <a routerLink="/home">home</a>
+      <a routerLink="/fichier-detail">fichier-detail2</a>
+    </nav>
+  </div>
+  <div class="col-lg-9">
+    <router-outlet></router-outlet>
+  </div>
 </div>
