@@ -13,8 +13,8 @@ import java.util.Map;
 @Path("redirect")
 public class Redirect {
 
-//    public static final String REDIRECT_URI = "https://jxs-back.herokuapp.com/rest/redirect/google";
-    public static final String REDIRECT_URI = "http://localhost:8080/rest/redirect/google";
+    public static final String REDIRECT_URI = "https://jxs-back.herokuapp.com/rest/redirect/google";
+//    public static final String REDIRECT_URI = "http://localhost:8080/rest/redirect/google";
     public static final String CLIENT_URL = "http://localhost:4200";
     public static String google_token = " ";
     public static Login loginDatabase = new Login();
