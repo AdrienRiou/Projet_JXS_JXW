@@ -24,7 +24,8 @@ import {UploaderComponent} from './uploader/uploader.component'
     FilesDisplayComponent,
     LateralPanelComponent,
     FileInfoComponent,
-    FichierDetailComponent
+    FichierDetailComponent,
+    UploaderComponent
   ],
   imports: [
     BrowserModule,
