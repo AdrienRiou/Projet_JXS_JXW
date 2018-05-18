@@ -4,6 +4,7 @@ import jdk.nashorn.internal.objects.annotations.Getter;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import java.net.*;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class Redirect {
 
     public static final String REDIRECT_URI = "https://jxs-back.herokuapp.com/rest/redirect/google";
+//    public static final String REDIRECT_URI = "http://localhost:8080/rest/redirect/google";
     public static final String CLIENT_URL = "http://localhost:4200";
     public static String google_token = " ";
     public static Login loginDatabase = new Login();
@@ -20,7 +22,7 @@ public class Redirect {
     @GET
     @Path("google")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt(@QueryParam("code") String code) {
+    public String getIt( @QueryParam("code") String code, @CookieParam("pseudo") String cookie) {
         String CLIENT_ID = "";
         String CLIENT_SECRET = "";
         String google_token;
@@ -44,10 +46,9 @@ public class Redirect {
 
             String result = HttpRequest.post("https://www.googleapis.com/oauth2/v4/token",  params.toString(), properties);
 
-
             JSONObject jsonToken = new JSONObject(result);
-
             google_token = jsonToken.getString("access_token");
+            Redirect.loginDatabase.addTokenFromService(cookie, "google", google_token);
 
 
 

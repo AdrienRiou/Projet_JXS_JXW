@@ -38,7 +38,9 @@ public class Login {
 
     public String getTokenFromService(String pseudo, String service) {
         String res = "none";
-        if ( this.idMap.containsKey(pseudo) ) {
+        System.out.println(pseudo);
+        System.out.println(this.idMap);
+        if ( this.idMap.containsKey(pseudo) && this.getLoggedUsers().contains(pseudo)) {
             res = this.idMap.get(pseudo).get(service);
         }
         return res;

@@ -24,11 +24,12 @@ public class FileApi {
     @GET
     @Path("/{service}/all")
     @Produces("application/json")
-    public Response getAllFiles(@PathParam("service") String service) {
+    public Response getAllFiles(@PathParam("service") String service, @CookieParam("pseudo") Cookie cookie) {
         String res = "";
         if ( service.equalsIgnoreCase("google")) {
             try {
-                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.google_token, null);
+                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.loginDatabase.getTokenFromService(cookie.getValue()
+                        , "google"), null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -43,11 +44,11 @@ public class FileApi {
     @GET
     @Path("/{service}/root")
     @Produces("application/json")
-    public Response getRootFiles(@PathParam("service") String service) {
+    public Response getRootFiles(@PathParam("service") String service, @CookieParam("pseudo") String cookie) {
         String res = "";
         if ( service.equalsIgnoreCase("google")) {
             try {
-                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.google_token+"&q=%27root%27%20in%20parents", null);
+                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google")+"&q=%27root%27%20in%20parents", null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -62,11 +63,11 @@ public class FileApi {
     @GET
     @Path("/{service}/file/{id}")
     @Produces("application/json")
-    public Response getFile(@PathParam("service") String service, @PathParam("id") String id) {
+    public Response getFile(@PathParam("service") String service, @PathParam("id") String id, @CookieParam("pseudo") String cookie) {
         String res = "";
         if(service.equalsIgnoreCase("google")) {
             try {
-            res = HttpRequest.get(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.google_token, null);
+            res = HttpRequest.get(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google"), null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,11 +80,11 @@ public class FileApi {
     @POST
     @Path("/{service}/add/{name}")
     @Produces("application/json")
-    public Response addFile(@PathParam("service") String service, @PathParam("name") String name) {
+    public Response addFile(@PathParam("service") String service, @PathParam("name") String name, @CookieParam("pseudo") String cookie) {
         String res = "";
         if ( service.equalsIgnoreCase("google")) {
             try {
-                String params = "?access_token="+Redirect.google_token+"&name="+name;
+                String params = "?access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google")+"&name="+name;
 
                 Map<String,String> properties = new HashMap<String,String>();
                 properties.put("Content-Length", params.getBytes().length+"");
@@ -101,11 +102,11 @@ public class FileApi {
 
     @GET
     @Path("/{service}/remove/{id}")
-    public Response removeFile(@PathParam("service") String service, @PathParam("id") String id) {
+    public Response removeFile(@PathParam("service") String service, @PathParam("id") String id, @CookieParam("pseudo") String cookie) {
         JSONObject json = new JSONObject();
         if(service.equalsIgnoreCase("google")) {
             try {
-                HttpRequest.delete(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.google_token);
+                HttpRequest.delete(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google"));
                 json.put("error", 0);
             } catch (IOException e) {
                 json.put("error", 1);
@@ -163,7 +164,7 @@ public class FileApi {
     @Path("/connect")
     @Produces(MediaType.APPLICATION_JSON)
     public Response connect(@QueryParam("pseudo") String pseudo) {
-        NewCookie cookie = new NewCookie("pseudo", pseudo);
+        NewCookie cookie = new NewCookie("pseudo", pseudo, "/   ","" , 1, "", -1, false);
         JSONObject json = new JSONObject();
 
 
@@ -189,8 +190,11 @@ public class FileApi {
     public Response disconnect(@CookieParam("pseudo") Cookie cookie ) {
         if ( cookie != null ) {
             Redirect.loginDatabase.unlogUser(cookie.getValue());
-            NewCookie newCookie = new NewCookie(cookie, null, -1, false);
-            return Response.ok("Disconnected").cookie(newCookie).build();
+
+            return Response.ok("Disconnected").header(
+                    "Set-Cookie",
+                    "pseudo=deleted;Domain=;Path=/;Expires=Thu, 01-Jan-1970 00:00:01 GMT"
+            ).build();
         }
         return  Response.ok("Not connected").build();
 
@@ -198,11 +202,11 @@ public class FileApi {
     @GET
     @Path("/testcookie")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response foo(@CookieParam("pseudo") Cookie cookie) {
+    public Response foo(@CookieParam("pseudo") String cookie) {
         if (cookie == null) {
             return Response.serverError().entity("ERROR COOKIE NOT FOUND").build();
         } else {
-            return Response.ok(cookie.getValue()).build();
+            return Response.ok(cookie + " VALUE : " + Redirect.loginDatabase.getTokenFromService(cookie, "google")).build();
         }
     }
 }
