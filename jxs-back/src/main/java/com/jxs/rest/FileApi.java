@@ -164,7 +164,7 @@ public class FileApi {
     @Path("/connect")
     @Produces(MediaType.APPLICATION_JSON)
     public Response connect(@QueryParam("pseudo") String pseudo) {
-        NewCookie cookie = new NewCookie("pseudo", pseudo, "/   ","" , 1, "", -1, false);
+        NewCookie cookie = new NewCookie("pseudo", pseudo, "/","" , 1, "", -1, false);
         JSONObject json = new JSONObject();
 
 
