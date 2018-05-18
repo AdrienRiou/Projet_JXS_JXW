@@ -51,7 +51,7 @@ export class FileService {
   getAllFiles(){
 
     const url = this.fileUrl+"/root";
-    return this.http.get<FileListClass>(url, {withCredentials: true});
+    return this.http.get<FileListClass>(url, {withCredentials: true, headers:null});
 
 
 
