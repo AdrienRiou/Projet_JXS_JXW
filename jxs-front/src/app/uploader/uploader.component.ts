@@ -11,7 +11,9 @@ export class UploaderComponent implements OnInit {
 
   private uploaderService: UploaderService
 
-  constructor() { }
+  constructor(uploaderService : UploaderService) {
+    this.uploaderService = uploaderService
+   }
 
   onPicked(input: HTMLInputElement) {
     const file = input.files[0];
