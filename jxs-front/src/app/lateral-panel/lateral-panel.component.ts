@@ -1,27 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import {FileService} from '../file.service'
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {ConnectJsonInterface, ConnectJsonClass} from '../ConnectJsonInterface'
+
 
 @Component({
   selector: 'app-lateral-panel',
   templateUrl: './lateral-panel.component.html',
-  styleUrls: ['./lateral-panel.component.css']
+  styleUrls: ['./lateral-panel.component.css'],
+  providers: [ConnectJsonClass]
 })
 export class LateralPanelComponent implements OnInit {
-  fs : FileService
-  userName : string
-
+  http : HttpClient ;
+  connectedJson : ConnectJsonClass = {isConnected : false, pseudo :"" };
   google_auth : boolean = false;
-  constructor(fs : FileService) {
-    this.fs = fs;
+  pseudo : string;
+  urlCo : string = "https://jxs-back.herokuapp.com/rest/api/";
+  constructor(http : HttpClient, connectedJson : ConnectJsonClass
+  ) {
+    this.http=http
+    this.connectedJson = connectedJson
   }
 
   ngOnInit() {
+    console.log("providers: [NameService]")
+    const url = this.urlCo + "isconnected"
+    this.http.get<ConnectJsonInterface>(url).subscribe(data =>{
+      this.connectedJson = <ConnectJsonInterface>data
+    });
+    this.google_auth = this.connectedJson.isConnected;
+    this.pseudo = this.connectedJson.pseudo;
+  }
+
+  disconnect(){
+    const url = this.urlCo + "disconnect"
+    this.http.get(url).subscribe()
   }
 
   addUser() {
-    this.fs.connectUser(this.userName).subscribe(data  => {
-      console.log(data);
-    });;
+
   }
 
 }
