@@ -10,7 +10,7 @@ import javax.ws.rs.ext.Provider;
 public class CORSFilter implements ContainerResponseFilter {
     @Override
     public void filter (ContainerRequestContext req, ContainerResponseContext resp) {
-        resp.getHeaders().add("Access-Control-Allow-Origin", "*");
+        resp.getHeaders().add("Access-Control-Allow-Origin", "http://localhost:4200");
         resp.getHeaders().add("Access-Control-Allow-Headers",
                 "origin, content-type, accept, authorization");
         resp.getHeaders().add("Access-Control-Allow-Credentials", "true");

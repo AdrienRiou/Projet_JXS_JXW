@@ -55,6 +55,7 @@ public class Login {
     }
 
     public void unlogUser(String pseudo ) {
+        System.out.println("Disconnecting user " + pseudo);
         this.logged_users.remove(pseudo);
     }
 }
