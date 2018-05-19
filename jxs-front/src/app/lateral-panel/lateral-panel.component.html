@@ -6,6 +6,8 @@
   </div>
   <div *ngIf="google_auth">
     <button type="button" class="btn btn-success">GoogleDrive connecté !</button>
+    Connected as {{pseudo}}
+    <button (click)="disconnect()"> disconnect </button>
   </div>
   <div>
     <label class="btn btn-default btn-file">
