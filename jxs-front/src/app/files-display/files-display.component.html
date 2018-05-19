@@ -8,11 +8,10 @@
       <li *ngFor="let FileClass of files.files"
           [class.selected]="FileClass === selectedFile"
           (click)="onSelect(FileClass)" class="list-group-item col-xs-4">
-        <a routerLink="/fichier-detail" (click)="onSelect(FileClass)">
+        <a  (click)="onSelect(FileClass)">
           {{FileClass.name}}
         </a>
       </li>
     </ul>
   </div>
 </div>
-

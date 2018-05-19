@@ -34,6 +34,10 @@ export class FileService {
 
   }
 
+  renameFile(id: number){
+    const url = this.fileUrl
+  }
+
   removeFile(id : String){
     const url = this.fileUrl+"/remove/" + id;
     console.log("remove : this.http.get(url) : " + url);
@@ -45,8 +49,10 @@ export class FileService {
       */
   }
   getAllFiles(){
-    const url = this.fileUrl+"/all";
-    return this.http.get<FileListClass>(url, {withCredentials: true});
+
+    const url = this.fileUrl+"/root";
+    return this.http.get<FileListClass>(url, {withCredentials: true, headers:null});
+
 
 
   }
