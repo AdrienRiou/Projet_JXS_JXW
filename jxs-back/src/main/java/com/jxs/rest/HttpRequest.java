@@ -5,11 +5,12 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 public class HttpRequest {
@@ -66,6 +67,49 @@ public class HttpRequest {
         in.close();
         return source;
     }
+
+    public static String patch(String url, String parameters) throws IOException{
+        URL u = new URL(url+parameters);
+        HttpURLConnection con = (HttpURLConnection) u.openConnection();
+        try {
+            Field methodsField = HttpURLConnection.class.getDeclaredField("methods");
+            methodsField.setAccessible(true);
+            // get the methods field modifiers
+            Field modifiersField = Field.class.getDeclaredField("modifiers");
+            // bypass the "private" modifier
+            modifiersField.setAccessible(true);
+
+            // remove the "final" modifier
+            modifiersField.setInt(methodsField, methodsField.getModifiers() & ~Modifier.FINAL);
+
+            /* valid HTTP methods */
+            String[] methods = {
+                    "GET", "POST", "HEAD", "OPTIONS", "PUT", "DELETE", "TRACE", "PATCH"
+            };
+            // set the new methods - including patch
+            methodsField.set(null, methods);
+
+        } catch (SecurityException | IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+        con.setRequestMethod("PATCH");
+        con.setConnectTimeout(5000);
+        con.setReadTimeout(5000);
+
+        BufferedReader in = new BufferedReader(
+                new InputStreamReader(
+                        con.getInputStream())
+        );
+        String inputLine;
+
+        String source="";
+        while ((inputLine = in.readLine()) != null)
+            source +=inputLine;
+
+        in.close();
+        return source;
+    }
+
 
     public static String post(String url, String parameters, Map<String,String> properties) throws IOException{
         HttpURLConnection connection = null;
