@@ -209,4 +209,22 @@ public class FileApi {
             return Response.ok(cookie + " VALUE : " + Redirect.loginDatabase.getTokenFromService(cookie, "google")).build();
         }
     }
+
+
+    @GET
+    @Path("/isconnected")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response isConnected(@CookieParam("pseudo") String cookie) {
+        JSONObject res = new JSONObject();
+        if (cookie == null) {
+            res.put("isConnected", false);
+            return Response.ok(res.toString()).build();
+        } else {
+            res.put("isConnected", true);
+            res.put("pseudo", cookie);
+            return Response.ok(res.toString()).build();
+        }
+
+
+    }
 }

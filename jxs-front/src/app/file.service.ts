@@ -12,8 +12,8 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class FileService {
   http : HttpClient ;
-  fileUrl = 'https://jxs-back.herokuapp.com/rest/api/google'
-  // fileUrl = 'http://localhost:8080/rest/api/google';
+  // fileUrl = 'https://jxs-back.herokuapp.com/rest/api'
+  fileUrl = 'http://localhost:8080/rest/api';
   listFiles : FileClass[] = [];
   constructor(http : HttpClient
   ) {
@@ -27,7 +27,7 @@ export class FileService {
   }
 
   getFile(id: number):Observable<FileClass[]>{
-    const url = this.fileUrl+"/file/"+id;
+    const url = this.fileUrl+"/google/file/"+id;
     return this.http.get<FileClass[]>(url);
 
 
@@ -39,7 +39,7 @@ export class FileService {
   }
 
   removeFile(id : String){
-    const url = this.fileUrl+"/remove/" + id;
+    const url = this.fileUrl+"/google/remove/" + id;
     console.log("remove : this.http.get(url) : " + url);
     return this.http.get(url);
   }
@@ -49,12 +49,13 @@ export class FileService {
       */
   }
   getAllFiles(){
-
-    const url = this.fileUrl+"/root";
+    const url = this.fileUrl+"/google/root";
     return this.http.get<FileListClass>(url, {withCredentials: true, headers:null});
+  }
 
-
-
+  connectUser( pseudo : string ) {
+    const url = this.fileUrl+"/connect?pseudo=" + pseudo;
+    return this.http.get(url, {withCredentials: true})
   }
 
 }
