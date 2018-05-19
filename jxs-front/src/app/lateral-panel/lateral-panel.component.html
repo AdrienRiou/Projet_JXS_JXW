@@ -1,8 +1,8 @@
 <div class="container">
 
   <div *ngIf="!google_auth">
-    <a target="_blank" href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=https://jxs-back.herokuapp.com/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a>
-    <!-- <a target="_blank"href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a> -->
+    <!-- <a target="_blank" href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=https://jxs-back.herokuapp.com/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a> -->
+    <a target="_blank"href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a>
   </div>
   <div *ngIf="google_auth">
     <button type="button" class="btn btn-success">GoogleDrive connecté !</button>

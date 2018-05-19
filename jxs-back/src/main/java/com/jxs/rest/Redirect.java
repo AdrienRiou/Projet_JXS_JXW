@@ -1,6 +1,6 @@
 package com.jxs.rest;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
+
 import org.json.JSONObject;
 
 import javax.ws.rs.*;

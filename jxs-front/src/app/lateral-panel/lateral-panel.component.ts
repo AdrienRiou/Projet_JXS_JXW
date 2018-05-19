@@ -11,10 +11,10 @@ import {ConnectJsonInterface, ConnectJsonClass} from '../ConnectJsonInterface'
 })
 export class LateralPanelComponent implements OnInit {
   http : HttpClient ;
-  connectedJson : ConnectJsonClass = {isConnected : false, pseudo :"" };
-  google_auth : boolean = false;
-  pseudo : string;
-  urlCo : string = "https://jxs-back.herokuapp.com/rest/api/";
+  connectedJson : ConnectJsonClass = {isConnected : true, pseudo :"" };
+  google_auth : boolean = true;
+  pseudo : string = "";
+  urlCo : string = "https://localhost:8080/rest/api/";
   constructor(http : HttpClient, connectedJson : ConnectJsonClass
   ) {
     this.http=http
