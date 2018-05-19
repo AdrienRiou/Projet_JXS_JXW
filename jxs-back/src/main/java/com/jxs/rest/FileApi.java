@@ -110,6 +110,23 @@ public class FileApi {
                 json.put("error", 0);
             } catch (IOException e) {
                 json.put("error", 1);
+                e.printStackTrace();
+            }
+        }
+        return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Path("/{service}/rename/{id}/{new}")
+    public Response renameFile(@PathParam("new") String new_name, @PathParam("service") String service, @PathParam("id") String id, @CookieParam("pseudo") String cookie) {
+        JSONObject json = new JSONObject();
+        if(service.equalsIgnoreCase("google")) {
+            try {
+                HttpRequest.patch(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google")+ "&title="+new_name);
+                json.put("error", 0);
+            } catch (IOException e) {
+                json.put("error", 1);
+                e.printStackTrace();
             }
         }
         return Response.ok(json.toString(), MediaType.APPLICATION_JSON).build();
