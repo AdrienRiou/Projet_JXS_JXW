@@ -19,28 +19,14 @@ export class FilesDisplayComponent implements OnInit {
   }
   onSelect(fileParam : FileClass ):void{
 
-    console.log(fileParam);
-    console.log (this.selectedFile);
-    console.log("preDebut");
-    console.log(this.ss.fileSource.getValue())
-    console.log("postDebut");
+
 
     this.selectedFile = fileParam;
 
-    console.log("preChange");
-    console.log(this.ss.fileSource.getValue())
-    console.log("preChange2");
+    this.fs.changeFile(fileParam);
 
-    this.ss.changeFile(fileParam);
+    this.fs.fileSource.subscribe(selectedFile => {
 
-    console.log("postChange");
-    console.log(this.ss.fileSource.getValue());
-    console.log("postChange2");
-
-    this.ss.fileSource.subscribe(selectedFile => {
-      console.log("preSubscribe")
-      console.log(selectedFile)
-      console.log("postSubscribe")
       this.selectedFile = selectedFile
     })
     console.log("END");

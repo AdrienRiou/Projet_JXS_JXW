@@ -11,10 +11,10 @@ import {ConnectJsonInterface, ConnectJsonClass} from '../ConnectJsonInterface'
 })
 export class LateralPanelComponent implements OnInit {
   http : HttpClient ;
-  connectedJson : ConnectJsonClass = {isConnected : true, pseudo :"" };
+  connectedJson : ConnectJsonClass = {isConnected : true, pseudo :"izflj" };
   google_auth : boolean = true;
   pseudo : string = "";
-  urlCo : string = "https://localhost:8080/rest/api/";
+  urlCo : string = "http://localhost:8080/rest/api/";
   constructor(http : HttpClient, connectedJson : ConnectJsonClass
   ) {
     this.http=http
@@ -24,16 +24,20 @@ export class LateralPanelComponent implements OnInit {
   ngOnInit() {
     console.log("providers: [NameService]")
     const url = this.urlCo + "isconnected"
-    this.http.get<ConnectJsonInterface>(url).subscribe(data =>{
+    this.http.get<ConnectJsonInterface>(url, {withCredentials: true, headers:null}).subscribe(data =>{
+      console.log("regarderrr : " + JSON.stringify(this.connectedJson))
       this.connectedJson = <ConnectJsonInterface>data
     });
+    console.log("regarder : " + JSON.stringify(this.connectedJson))
     this.google_auth = this.connectedJson.isConnected;
     this.pseudo = this.connectedJson.pseudo;
   }
-
+  refresh(){
+    this.ngOnInit()
+  }
   disconnect(){
     const url = this.urlCo + "disconnect"
-    this.http.get(url).subscribe()
+    this.http.get(url, {withCredentials: true, headers:null}).subscribe()
   }
 
   addUser() {

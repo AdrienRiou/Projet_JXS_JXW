@@ -3,6 +3,7 @@ import { Observable} from 'rxjs';
 import {FileClass, FileListClass} from './FileClass';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
@@ -15,9 +16,19 @@ export class FileService {
   // fileUrl = 'https://jxs-back.herokuapp.com/rest/api'
   fileUrl = 'http://localhost:8080/rest/api';
   listFiles : FileClass[] = [];
+  public fileSource = new BehaviorSubject<FileClass> ({name:"name", id:"id", lastEditDate:"lastEditDate", size:"size",
+  creationDate:"creationDate", authors:[]  });
+
+  currentFile = this.fileSource.asObservable();
+
+
+
   constructor(http : HttpClient
   ) {
     this.http=http
+  }
+  changeFile(file:FileClass){
+    this.fileSource.next(file);
   }
   getListFiles(){
     return this.listFiles;
