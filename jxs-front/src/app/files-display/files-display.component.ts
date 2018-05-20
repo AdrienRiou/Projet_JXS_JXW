@@ -15,7 +15,6 @@ export class FilesDisplayComponent implements OnInit {
   constructor( fs : FileService) {
     this.fs = fs;
   }
-<<<<<<< HEAD
   onSelect(fileParam : FileClass ):void{
 
 
@@ -29,7 +28,8 @@ export class FilesDisplayComponent implements OnInit {
       this.selectedFile = selectedFile
     })
     console.log("END");
-
+  }
+  
   ngOnInit() {
     this.getFiles();
   }

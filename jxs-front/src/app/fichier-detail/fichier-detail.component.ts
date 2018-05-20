@@ -42,7 +42,7 @@ export class FichierDetailComponent implements OnInit {
   }
   rename():void{
     console.log("rename " + this.renameVar)
-    this.fs
+
   }
   ngOnInit() {
     this.ss.fileSource.subscribe(file =>

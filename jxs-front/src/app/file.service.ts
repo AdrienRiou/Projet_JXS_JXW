@@ -60,6 +60,7 @@ export class FileService {
 
   connectUser( pseudo : string ) {
     const url = this.fileUrl+"/connect?pseudo=" + pseudo;
+    console.log(this.http.get(url, {withCredentials: true}));
     return this.http.get(url, {withCredentials: true})
   }
 

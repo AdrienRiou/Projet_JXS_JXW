@@ -20,6 +20,7 @@ export class LateralPanelComponent implements OnInit {
   userName : string;
   constructor(http : HttpClient, connectedJson : ConnectJsonClass, fs : FileService, cs : CookieService
   ) {
+
     this.cs = cs;
     this.fs = fs;
     this.http=http;
