@@ -41,8 +41,6 @@ export class FileService {
     const url = this.fileUrl+"/google/file/"+id;
     return this.http.get<FileClass[]>(url);
 
-
-
   }
 
   renameFile(id: number){
@@ -54,11 +52,7 @@ export class FileService {
     console.log("remove : this.http.get(url) : " + url);
     return this.http.get(url);
   }
-  tryParsing(){
-      return this.http.get("https://api.github.com/users/mralexgray/repos")/*
-      .map(res => {console.log("testTryparsing "+JSON.stringify(res[0].html_url))})
-      */
-  }
+
   getAllFiles(){
     const url = this.fileUrl+"/google/root";
     return this.http.get<FileListClass>(url, {withCredentials: true, headers:null});
@@ -67,6 +61,11 @@ export class FileService {
   connectUser( pseudo : string ) {
     const url = this.fileUrl+"/connect?pseudo=" + pseudo;
     return this.http.get(url, {withCredentials: true})
+  }
+
+  disconnectUser() {
+    const url = this.fileUrl + "/disconnect"
+    return this.http.get(url, {withCredentials: true, headers:null} );
   }
 
 }

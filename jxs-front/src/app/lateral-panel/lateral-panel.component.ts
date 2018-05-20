@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {ConnectJsonInterface, ConnectJsonClass} from '../ConnectJsonInterface'
-
+import {FileService} from '../file.service'
+import { CookieService } from 'angular2-cookie/core';
 
 @Component({
   selector: 'app-lateral-panel',
@@ -11,36 +12,37 @@ import {ConnectJsonInterface, ConnectJsonClass} from '../ConnectJsonInterface'
 })
 export class LateralPanelComponent implements OnInit {
   http : HttpClient ;
-  connectedJson : ConnectJsonClass = {isConnected : true, pseudo :"izflj" };
-  google_auth : boolean = true;
-  pseudo : string = "";
-  urlCo : string = "http://localhost:8080/rest/api/";
-  constructor(http : HttpClient, connectedJson : ConnectJsonClass
+  connectedJson : ConnectJsonClass = {isConnected : false, pseudo :"" };
+  google_auth : boolean = false;
+  pseudo : string;
+  fs : FileService;
+  cs : CookieService;
+  userName : string;
+  constructor(http : HttpClient, connectedJson : ConnectJsonClass, fs : FileService, cs : CookieService
   ) {
-    this.http=http
-    this.connectedJson = connectedJson
+    this.cs = cs;
+    this.fs = fs;
+    this.http=http;
+    this.connectedJson = connectedJson;
   }
 
   ngOnInit() {
-    console.log("providers: [NameService]")
-    const url = this.urlCo + "isconnected"
-    this.http.get<ConnectJsonInterface>(url, {withCredentials: true, headers:null}).subscribe(data =>{
-      console.log("regarderrr : " + JSON.stringify(this.connectedJson))
-      this.connectedJson = <ConnectJsonInterface>data
-    });
-    console.log("regarder : " + JSON.stringify(this.connectedJson))
-    this.google_auth = this.connectedJson.isConnected;
-    this.pseudo = this.connectedJson.pseudo;
+    console.log("Connected as : " + this.cs.get("pseudo"))
+    this.pseudo = this.cs.get("pseudo");
   }
   refresh(){
     this.ngOnInit()
   }
   disconnect(){
-    const url = this.urlCo + "disconnect"
-    this.http.get(url, {withCredentials: true, headers:null}).subscribe()
+    this.fs.disconnectUser().subscribe();
+    this.pseudo = null;
   }
 
   addUser() {
+    this.fs.connectUser(this.userName).subscribe(data  => {
+      console.log(data);
+      this.pseudo = this.cs.get("pseudo");
+    });;
 
   }
 

@@ -12,11 +12,10 @@ export class FilesDisplayComponent implements OnInit {
   fs : FileService
   files : FileListClass;
   selectedFile : FileClass;
-  ss : SharedService
-  constructor(ss: SharedService, fs : FileService) {
+  constructor( fs : FileService) {
     this.fs = fs;
-    this.ss = ss;
   }
+<<<<<<< HEAD
   onSelect(fileParam : FileClass ):void{
 
 
@@ -30,10 +29,15 @@ export class FilesDisplayComponent implements OnInit {
       this.selectedFile = selectedFile
     })
     console.log("END");
+=======
+  ngOnInit() {
+    this.getFiles();
+>>>>>>> 6ab4800f9ecbaff4e09ec27645b6aafe98b1df30
   }
 
-  ngOnInit() {
+  getFiles() {
     this.fs.getAllFiles().subscribe(data  => {
+      console.log("RETURN GET ALL = " + data)
       this.files = <FileListClass>data;
     });
   }

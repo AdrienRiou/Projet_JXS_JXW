@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,8 +14,7 @@ import java.util.Map;
 @Path("redirect")
 public class Redirect {
 
-    public static final String REDIRECT_URI = "https://jxs-back.herokuapp.com/rest/redirect/google";
-//    public static final String REDIRECT_URI = "http://localhost:8080/rest/redirect/google";
+    public static final String REDIRECT_URI = "http://localhost:8080/rest/redirect/google";
     public static final String CLIENT_URL = "http://localhost:4200";
     public static String google_token = " ";
     public static Login loginDatabase = new Login();
@@ -22,10 +22,11 @@ public class Redirect {
     @GET
     @Path("google")
     @Produces(MediaType.TEXT_PLAIN)
-    public String getIt( @QueryParam("code") String code, @CookieParam("pseudo") String cookie) {
+    public Response getIt( @QueryParam("code") String code, @CookieParam("pseudo") String cookie) {
         String CLIENT_ID = "";
         String CLIENT_SECRET = "";
         String google_token;
+        URI client = null;
         try {
 
             System.out.println("CODE ===== " + code);
@@ -50,14 +51,14 @@ public class Redirect {
             google_token = jsonToken.getString("access_token");
             Redirect.loginDatabase.addTokenFromService(cookie, "google", google_token);
 
-
+            client = new URI(CLIENT_URL);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        return "Done" ;
+        return Response.temporaryRedirect(client).build();
     }
 
 }

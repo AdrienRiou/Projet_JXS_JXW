@@ -30,6 +30,7 @@ public class Login {
     public void addTokenFromService(String pseudo, String service, String token ) {
         if ( this.idMap.containsKey(pseudo )) { // if pseudo exists
             this.idMap.get(pseudo).put(service, token);
+            System.out.println("Adding token " + token + " for user " + pseudo + " ( service = " + service + " )");
         } else {
             this.addUser(pseudo);
             this.addTokenFromService(pseudo, service, token);
@@ -51,6 +52,7 @@ public class Login {
     }
 
     public void addLoggedUser(String pseudo ) {
+        System.out.println("Connecting user " + pseudo);
         this.logged_users.add(pseudo);
     }
 
