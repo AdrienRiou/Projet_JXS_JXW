@@ -234,9 +234,9 @@ public class FileApi {
     @GET
     @Path("/disconnect")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response disconnect(@CookieParam("pseudo") Cookie cookie ) {
-        if ( cookie != null ) {
-            Redirect.loginDatabase.unlogUser(cookie.getValue());
+    public Response disconnect(@CookieParam("pseudo") Cookie cookie_login ) {
+        if ( cookie_login != null ) {
+            Redirect.loginDatabase.unlogUser(cookie_login.getValue());
 
             return Response.ok("Disconnected").header(
                     "Set-Cookie",
