@@ -164,7 +164,7 @@ public class FileApi {
             // last edit date
             tmp.put("lastEditDate", current.get("modifiedTime"));
 
-            if ( current.get("mimType").toString().equalsIgnoreCase("application/vnd.google-apps.folder")) {
+            if ( current.get("mimeType").toString().equalsIgnoreCase("application/vnd.google-apps.folder")) {
                 tmp.put("isFolder", true);
             } else {
                 tmp.put("isFolder", false);
