@@ -1,0 +1,15 @@
+.selected {
+  background-color: #CFD8DC !important;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  word-wrap: break-word;
+  list-style-type: none;
+}
+
+ul {
+  border: none;
+}
+

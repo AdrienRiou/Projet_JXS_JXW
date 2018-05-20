@@ -1,0 +1,23 @@
+FONCTIONS + LIEN API 
+
+racine de l'adresse du backend :
+
+http://localhost:8080/rest/api
+
+POUR GOOGLE :
+
+- list all files :
+
+racine + /google/all
+
+- get file info by ID ;
+
+racine + /google/file/{l'id du fichier}
+
+- create new file : 
+
+racine + /google/add/{nom du fichier}
+
+- delete a file
+
+racine + /google/remove/{id du fichier}

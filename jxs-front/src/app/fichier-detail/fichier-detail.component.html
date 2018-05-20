@@ -1,0 +1,20 @@
+
+<div *ngIf="file">
+
+  <h2>{{ file.name | uppercase }} Details</h2>
+  <div ><span>id: </span>{{file.id}}</div>
+  <div ><span>size: </span>{{file.size}}</div>
+  <div ><span>lastEditDate: </span>{{file.lastEditDate}}</div>
+  <div ><span>creationDate: </span>{{file.creationDate}}</div>
+  <div ><span>authors: </span>{{file.authors}}</div>
+  <div>
+
+  </div>
+  <button (click)="delete()">Delete</button>
+  </div>
+  <div>
+  <input type="text" [(ngModel)]="renameVar">
+  <button (click)="rename()">Rename</button>
+
+
+</div>
