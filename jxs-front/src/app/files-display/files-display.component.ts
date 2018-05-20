@@ -29,10 +29,9 @@ export class FilesDisplayComponent implements OnInit {
       this.selectedFile = selectedFile
     })
     console.log("END");
-=======
+
   ngOnInit() {
     this.getFiles();
->>>>>>> 6ab4800f9ecbaff4e09ec27645b6aafe98b1df30
   }
 
   getFiles() {
