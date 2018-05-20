@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {ConnectJsonInterface, ConnectJsonClass} from '../ConnectJsonInterface'
-
+import {FileService} from '../file.service'
 
 @Component({
   selector: 'app-lateral-panel',
@@ -15,8 +15,11 @@ export class LateralPanelComponent implements OnInit {
   google_auth : boolean = false;
   pseudo : string;
   urlCo : string = "https://jxs-back.herokuapp.com/rest/api/";
-  constructor(http : HttpClient, connectedJson : ConnectJsonClass
+  fs : FileService;
+  userName : string;
+  constructor(http : HttpClient, connectedJson : ConnectJsonClass, fs : FileService
   ) {
+    this.fs = fs;
     this.http=http
     this.connectedJson = connectedJson
   }
@@ -37,7 +40,9 @@ export class LateralPanelComponent implements OnInit {
   }
 
   addUser() {
-
+    this.fs.connectUser(this.userName).subscribe(data  => {
+      console.log(data);
+    });;
   }
 
 }

@@ -7,7 +7,7 @@
   <div *ngIf="google_auth">
     <button type="button" class="btn btn-success">GoogleDrive connecté !</button>
     Connected as {{pseudo}}
-    <button (click)="disconnect()"> disconnect </button>
+
   </div>
   <div>
     <label class="btn btn-default btn-file">
@@ -20,8 +20,9 @@
       <div>
         User:
         <input type="text" [(ngModel)]="userName" name="userName"><br>
-        <button (click)="addUser()">Submit</button>
+        <button *ngIf="!pseudo" (click)="addUser()">Se connecter</button>
       </div>
+      <button *ngIf="pseudo" (click)="disconnect()">Se déconnecter </button>
     </form>
   </div>
 
