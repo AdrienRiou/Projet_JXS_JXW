@@ -60,6 +60,31 @@ public class FileApi {
 
     }
 
+    /**
+     * Returns the list of the files inside the folder ( {id} being its ID )
+     * @param service
+     * @param cookie
+     * @return
+     */
+    @GET
+    @Path("/{service}/parent/{id}")
+    @Produces("application/json")
+    public Response getFolderFiles(@PathParam("service") String service, @PathParam("id") String id, @CookieParam("pseudo") String cookie) {
+        String res = "";
+        if ( service.equalsIgnoreCase("google")) {
+            try {
+                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google")+"&q=%27"+id+"%27%20in%20parents", null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return Response.ok(this.universalizeGoogleJsonFile(res), MediaType.APPLICATION_JSON)
+                .build();
+
+
+    }
+
     @GET
     @Path("/{service}/file/{id}")
     @Produces("application/json")
