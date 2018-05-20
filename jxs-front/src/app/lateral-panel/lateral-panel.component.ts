@@ -40,7 +40,9 @@ export class LateralPanelComponent implements OnInit {
   }
 
   addUser() {
+
     this.fs.connectUser(this.userName).subscribe(data  => {
+      console.log("addUser")
       console.log(data);
       this.pseudo = this.cs.get("pseudo");
     });;
