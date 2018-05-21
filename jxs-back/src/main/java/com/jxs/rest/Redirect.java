@@ -42,7 +42,7 @@ public class Redirect {
             properties.put("Content-Length", params.getBytes().length+"");
             properties.put("Content-Type", "application/x-www-form-urlencoded");
 
-            String result = HttpRequest.post("https://www.googleapis.com/oauth2/v4/token",  params, properties);
+            String result = HttpRequest.post("https://www.googleapis.com/oauth2/v4/token",  params, properties, false);
 
             JSONObject jsonToken = new JSONObject(result);
             google_token = jsonToken.getString("access_token");
@@ -81,7 +81,7 @@ public class Redirect {
             properties.put("Content-Length", params.getBytes().length+"");
             properties.put("Content-Type", "application/x-www-form-urlencoded");
 
-            String result = HttpRequest.post("https://api.dropbox.com/1/oauth2/token",  params.toString(), properties);
+            String result = HttpRequest.post("https://api.dropbox.com/1/oauth2/token",  params.toString(), properties, false);
             JSONObject jsonToken = new JSONObject(result);
             token = jsonToken.getString("access_token");
             Redirect.loginDatabase.addTokenFromService(cookie, "dropbox", token);

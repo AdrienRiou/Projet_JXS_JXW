@@ -2,3 +2,19 @@
   background-color: #CFD8DC !important;
   color: white;
 }
+
+.strong {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.italic {
+  font-style: italic;
+  font-weight: bold;
+
+}
+
+#decoration {
+  background-color: #5bc0de;
+  border-radius: 4px;
+}

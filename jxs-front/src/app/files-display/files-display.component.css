@@ -9,7 +9,30 @@ a {
   list-style-type: none;
 }
 
-ul {
+.file {
+  list-style-type: none;
+}
+
+.file li {
+  position: relative;
+  cursor: pointer;
   border: none;
 }
 
+.file li:hover {
+  color: #607D8B;
+  background-color: #DDD;
+  left: .1em;
+}
+
+.file a {
+  color: #888;
+  text-decoration: none;
+  position: relative;
+  display: block;
+  width: 250px;
+}
+
+.file a:hover {
+  color:#607D8B;
+}

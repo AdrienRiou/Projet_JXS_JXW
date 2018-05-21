@@ -15,11 +15,6 @@ import { AppRoutingModule } from './app-routing.module';
 import {UploaderComponent} from './uploader/uploader.component'
 import {CookieService} from 'angular2-cookie/core';
 
-
-
-
-
-
 @NgModule({
   declarations: [
     AppComponent,
