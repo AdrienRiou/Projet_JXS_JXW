@@ -65,7 +65,6 @@ public class Redirect {
         String token;
         URI client = null;
         try {
-            System.out.println("CODE = " + code);
             String params = "code="+code
                     +"&redirect_uri="+ REDIRECT_URI_DROPBOX
                     +"&grant_type=authorization_code"
@@ -77,11 +76,8 @@ public class Redirect {
             properties.put("Content-Type", "application/x-www-form-urlencoded");
 
             String result = HttpRequest.post("https://api.dropbox.com/1/oauth2/token",  params.toString(), properties);
-
-            System.out.println(result);
             JSONObject jsonToken = new JSONObject(result);
             token = jsonToken.getString("access_token");
-            System.out.println("DROPBOX TOKEN = " + token);
             Redirect.loginDatabase.addTokenFromService(cookie, "dropbox", token);
 
             client = new URI(CLIENT_URL);

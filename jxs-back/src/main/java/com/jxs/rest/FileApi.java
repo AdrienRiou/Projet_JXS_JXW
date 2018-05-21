@@ -68,7 +68,6 @@ public class FileApi {
                     properties.put("Content-Length", params.getBytes().length + "");
                     properties.put("Content-Type", "application/json");
                     properties.put("Accept", "application/json");
-                    System.out.println(Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
                     properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, service));
                     res = HttpRequest.post(DROPBOX_BASE_URI + "/files/list_folder", params, properties);
                     res = this.universalizeDropboxJsonFile(res);
