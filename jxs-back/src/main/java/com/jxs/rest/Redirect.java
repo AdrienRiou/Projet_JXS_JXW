@@ -45,11 +45,49 @@ public class Redirect {
             properties.put("Content-Length", params.getBytes().length+"");
             properties.put("Content-Type", "application/x-www-form-urlencoded");
 
-            String result = HttpRequest.post("https://www.googleapis.com/oauth2/v4/token",  params.toString(), properties);
+            String result = HttpRequest.post("https://www.googleapis.com/oauth2/v4/token",  params, properties);
 
             JSONObject jsonToken = new JSONObject(result);
             google_token = jsonToken.getString("access_token");
             Redirect.loginDatabase.addTokenFromService(cookie, "google", google_token);
+
+            client = new URI(CLIENT_URL);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return Response.temporaryRedirect(client).build();
+    }
+
+
+    @GET
+    @Path("dropbox")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getDropboxToken( @QueryParam("code") String code, @CookieParam("pseudo") String cookie) {
+
+
+         // curl https://api.dropbox.com/1/oauth2/token -d code=<authorization code> -d grant_type=authorization_code -d redirect_uri=<redirect URI> -u <app key>:<app secret>
+        String CLIENT_ID = "ltfpmsjovjpg6fz";
+        String CLIENT_SECRET = "dqcgwho6yisngcq";
+        String token;
+        URI client = null;
+        try {
+            String params = "code="+code
+                    +"&redirect_uri="+ REDIRECT_URI_DROPBOX
+                    +"&grant_type=authorization_code"
+                    +"&client_id=" + CLIENT_ID
+                    +"&client_secret=" + CLIENT_SECRET;
+
+            Map<String,String> properties = new HashMap();
+            properties.put("Content-Length", params.getBytes().length+"");
+            properties.put("Content-Type", "application/x-www-form-urlencoded");
+
+            String result = HttpRequest.post("https://api.dropbox.com/1/oauth2/token",  params.toString(), properties);
+            JSONObject jsonToken = new JSONObject(result);
+            token = jsonToken.getString("access_token");
+            Redirect.loginDatabase.addTokenFromService(cookie, "dropbox", token);
 
             client = new URI(CLIENT_URL);
 
