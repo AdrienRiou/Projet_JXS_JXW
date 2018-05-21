@@ -12,9 +12,11 @@ export class FilesDisplayComponent implements OnInit {
   fs : FileService
   files : FileListClass
   selectedFile : FileClass;
-  idTab : string[];
+  previousFolderId : string = ""
+  idTab : Array<string> = [""];
   constructor( fs : FileService) {
     this.fs = fs;
+
   }
   onSelect(fileParam : FileClass ):void{
 
@@ -22,7 +24,12 @@ export class FilesDisplayComponent implements OnInit {
       this.fs.getFileFolder(fileParam.id).subscribe(data =>{
         this.files = <FileListClass>data;
       })
-      this.idTab.push(this.selectedFile.id)
+      this.idTab.push(fileParam.id)
+      this.previousFolderId = fileParam.id
+      console.log("ONSELECT")
+      console.log(this.idTab)
+      console.log("ONSELECT")
+
     }
 
     this.selectedFile = fileParam;
@@ -42,7 +49,14 @@ export class FilesDisplayComponent implements OnInit {
   }
 
   back(){
-    if(this.idTab.length == 0){
+
+    if(this.idTab.length > 1){
+      this.idTab.pop();
+    }
+    console.log("BACK")
+    console.log(this.idTab)
+    console.log("BACK")
+    if(this.idTab[this.idTab.length-1] == ""){
       this.fs.getAllFiles().subscribe(data  => {
         this.files = <FileListClass>data;
       })
@@ -50,8 +64,9 @@ export class FilesDisplayComponent implements OnInit {
     else{
       this.fs.getFileFolder(this.idTab[this.idTab.length-1]).subscribe(data =>{
         this.files = <FileListClass>data;
+
       })
-      this.idTab.pop();
+
     }
 
   }

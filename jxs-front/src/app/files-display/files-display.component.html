@@ -8,7 +8,7 @@
       <li *ngFor="let FileClass of files.files"
           [class.selected]="FileClass === selectedFile"
           (click)="onSelect(FileClass)" class="list-group-item col-xs-4">
-        <a  (click)="onSelect(FileClass)">
+        <a>
           {{FileClass.name}}
         </a>
       </li>

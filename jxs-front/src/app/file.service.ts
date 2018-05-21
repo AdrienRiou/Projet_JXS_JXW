@@ -49,7 +49,7 @@ export class FileService {
   }
 
   getFileFolder(id: string){
-    const url = this.fileUrl+"/google/" + id + "/root";
+    const url = this.fileUrl+"/google/parent?id=" + id;
     return this.http.get<FileListClass>(url, {withCredentials: true, headers:null});
   }
 
