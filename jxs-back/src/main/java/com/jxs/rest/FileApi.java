@@ -47,27 +47,34 @@ public class FileApi {
     @Produces("application/json")
     public Response getRootFiles(@PathParam("service") String service, @CookieParam("pseudo") String cookie) {
         String res = "";
-        if ( service.equalsIgnoreCase("google")) {
-            try {
-                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google")+"&q=%27root%27%20in%20parents", null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            res = this.universalizeGoogleJsonFile(res);
+        String token = Redirect.loginDatabase.getTokenFromService(cookie, service) ;
+        if ( token == null || token == "none") {
+            JSONObject json = new JSONObject();
+            json.put("errorMessage" , "token invalid");
+            res = json.toString();
+        } else {
+            if (service.equalsIgnoreCase("google")) {
+                try {
+                    res = HttpRequest.get(GOOGLE_BASE_URI + "/files", "?fields=*&access_token=" + Redirect.loginDatabase.getTokenFromService(cookie, service) + "&q=%27root%27%20in%20parents", null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                res = this.universalizeGoogleJsonFile(res);
 
-        } else if (service.equalsIgnoreCase("dropbox")) {
-            try {
-                String params = "{\"path\": \"\",\"recursive\": false,\"include_media_info\": true,\"include_deleted\": false,\"include_has_explicit_shared_members\": false}";
-                Map<String,String> properties = new HashMap();
-                properties.put("Content-Length", params.getBytes().length+"");
-                properties.put("Content-Type", "application/json");
-                properties.put("Accept", "application/json");
-                System.out.println( Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
-                properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
-                res = HttpRequest.post(DROPBOX_BASE_URI+"/files/list_folder", params, properties);
-                res = this.universalizeDropboxJsonFile(res);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else if (service.equalsIgnoreCase("dropbox")) {
+                try {
+                    String params = "{\"path\": \"\",\"recursive\": false,\"include_media_info\": true,\"include_deleted\": false,\"include_has_explicit_shared_members\": false}";
+                    Map<String, String> properties = new HashMap();
+                    properties.put("Content-Length", params.getBytes().length + "");
+                    properties.put("Content-Type", "application/json");
+                    properties.put("Accept", "application/json");
+                    System.out.println(Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
+                    properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, service));
+                    res = HttpRequest.post(DROPBOX_BASE_URI + "/files/list_folder", params, properties);
+                    res = this.universalizeDropboxJsonFile(res);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return Response.ok(res, MediaType.APPLICATION_JSON)
