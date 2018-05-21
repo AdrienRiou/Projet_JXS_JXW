@@ -218,6 +218,7 @@ public class FileApi {
             tmp.put("size", current.get("quotaBytesUsed"));
             // authors
             tmp.put("authors", new JSONArray());
+            tmp.put("service", "google");
             JSONArray authors = current.getJSONArray("owners");
             for (int j = 0; j < authors.length() ; j++ ) {
                 tmp.getJSONArray("authors").put(authors.getJSONObject(j).get("displayName"));
@@ -265,6 +266,7 @@ public class FileApi {
             tmp.put("authors", new JSONArray());
             // same
             tmp.put("creationDate", "");
+            tmp.put("service", "dropbox");
             if ( current.get(".tag").toString().equalsIgnoreCase("folder")) {
                 tmp.put("isFolder", true);
                 //size

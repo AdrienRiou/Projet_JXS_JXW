@@ -13,20 +13,30 @@
   <div class="text-center">
     <h2>Please, choise your Cloud service before log in</h2>
   </div>
+</div>
+
+﻿<div class="container">
   <div class="col-md-4 text-center">
     <div *ngIf="!google_auth">
       <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a>
     </div>
   </div>
+
   <div class="col-md-4 text-center">
     <div>
       <a href="https://www.dropbox.com/1/oauth2/authorize?client_id=ltfpmsjovjpg6fz&response_type=code&redirect_uri=http://localhost:8080/rest/redirect/dropbox"><button type="button" class="btn btn-warning">DropBox non connecté</button></a>
     </div>
   </div>
+
   <div class="col-md-4 text-center">
     <div>
       <a type="button" class="btn btn-warning">PAS ENCORE FAIT</a>
     </div>
+  </div>
+
+  <div *ngIf="google_auth">
+    <button type="button" class="btn btn-success" (click)="refresh()">GoogleDrive connecté !</button>
+    Connected as {{pseudo}}
   </div>
 </div>
 
