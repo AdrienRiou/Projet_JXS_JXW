@@ -20,6 +20,7 @@ import java.util.Map;
 public class FileApi {
 
     public static final String GOOGLE_BASE_URI = "https://www.googleapis.com/drive/v3";
+    public static final String DROPBOX_BASE_URI = "https://api.dropboxapi.com/2";
 
     @GET
     @Path("/{service}/all")
@@ -52,24 +53,39 @@ public class FileApi {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            res = this.universalizeGoogleJsonFile(res);
 
+        } else if (service.equalsIgnoreCase("dropbox")) {
+            try {
+                String params = "{\"path\": \"\",\"recursive\": false,\"include_media_info\": true,\"include_deleted\": false,\"include_has_explicit_shared_members\": false}";
+                Map<String,String> properties = new HashMap();
+                properties.put("Content-Length", params.getBytes().length+"");
+                properties.put("Content-Type", "application/json");
+                properties.put("Accept", "application/json");
+                System.out.println( Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
+                properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
+                res = HttpRequest.post(DROPBOX_BASE_URI+"/files/list_folder", params, properties);
+                res = this.universalizeDropboxJsonFile(res);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return Response.ok(this.universalizeGoogleJsonFile(res), MediaType.APPLICATION_JSON)
+        return Response.ok(res, MediaType.APPLICATION_JSON)
                 .build();
 
 
     }
 
     /**
-     * Returns the list of the files inside the folder ( {id} being its ID )
+     *
      * @param service
      * @param cookie
-     * @return
+     * @return the list of the files inside the folder ( {id} being its ID OR path for dropbox )
      */
     @GET
-    @Path("/{service}/parent/{id}")
+    @Path("/{service}/parent")
     @Produces("application/json")
-    public Response getFolderFiles(@PathParam("service") String service, @PathParam("id") String id, @CookieParam("pseudo") String cookie) {
+    public Response getFolderFiles(@PathParam("service") String service, @QueryParam("id") String id, @CookieParam("pseudo") String cookie) {
         String res = "";
         if ( service.equalsIgnoreCase("google")) {
             try {
@@ -77,9 +93,25 @@ public class FileApi {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            res = this.universalizeGoogleJsonFile(res);
 
+        } else if (service.equalsIgnoreCase("dropbox")) {
+            try {
+                String params = "{\"path\": \"" + id + "\",\"recursive\": false,\"include_media_info\": true,\"include_deleted\": false,\"include_has_explicit_shared_members\": false}";
+                System.out.println(params);
+                Map<String,String> properties = new HashMap();
+                properties.put("Content-Length", params.getBytes().length+"");
+                properties.put("Content-Type", "application/json");
+                properties.put("Accept", "application/json");
+                System.out.println( Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
+                properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
+                res = HttpRequest.post(DROPBOX_BASE_URI+"/files/list_folder", params, properties);
+                res = this.universalizeDropboxJsonFile(res);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return Response.ok(this.universalizeGoogleJsonFile(res), MediaType.APPLICATION_JSON)
+        return Response.ok(res , MediaType.APPLICATION_JSON)
                 .build();
 
 
@@ -206,6 +238,46 @@ public class FileApi {
         return res;
     }
 
+    /**
+     * Transform the google REST API JSON response to our universal format, easier to process by the frontend
+     * @param raw the json data to transform
+     * @return the universal JSON data
+     */
+    private String universalizeDropboxJsonFile(String raw) {
+        String res = "";
+        JSONObject json = new JSONObject(raw);
+        JSONObject json_res = new JSONObject();
+        json_res.put("files", new JSONArray());
+        for (int i = 0; i < json.getJSONArray("entries").length() ; i++ ) {
+            JSONObject tmp = new JSONObject();
+            JSONObject current = (JSONObject) json.getJSONArray("entries").get(i);
+            // ID
+            tmp.put("id", current.get("id").toString().split(":")[1]);
+            // name
+            tmp.put("name", current.get("name"));
+            // no way to get authors with dropbox
+            tmp.put("authors", new JSONArray());
+            // same
+            tmp.put("creationDate", "");
+            if ( current.get(".tag").toString().equalsIgnoreCase("folder")) {
+                tmp.put("isFolder", true);
+                //size
+                tmp.put("size", 0);
+                // last edit date
+                tmp.put("lastEditDate", "");
+            } else {
+                tmp.put("isFolder", false);
+                //size
+                tmp.put("size", current.get("size"));
+                // last edit date
+                tmp.put("lastEditDate", current.get("server_modified"));
+            }
+            // add the file to the array
+            json_res.getJSONArray("files").put(tmp);
+        }
+        res = json_res.toString();
+        return res;
+    }
 
     @GET
     @Path("/connect")

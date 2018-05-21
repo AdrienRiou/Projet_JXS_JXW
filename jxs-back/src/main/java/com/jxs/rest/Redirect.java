@@ -36,7 +36,7 @@ public class Redirect {
             properties.put("Content-Length", params.getBytes().length+"");
             properties.put("Content-Type", "application/x-www-form-urlencoded");
 
-            String result = HttpRequest.post("https://www.googleapis.com/oauth2/v4/token",  params.toString(), properties);
+            String result = HttpRequest.post("https://www.googleapis.com/oauth2/v4/token",  params, properties);
 
             JSONObject jsonToken = new JSONObject(result);
             google_token = jsonToken.getString("access_token");
@@ -69,8 +69,8 @@ public class Redirect {
             String params = "code="+code
                     +"&redirect_uri="+ REDIRECT_URI_DROPBOX
                     +"&grant_type=authorization_code"
-                    +"&client_id" + CLIENT_ID
-                    +"&client_secret" + CLIENT_SECRET;
+                    +"&client_id=" + CLIENT_ID
+                    +"&client_secret=" + CLIENT_SECRET;
 
             Map<String,String> properties = new HashMap();
             properties.put("Content-Length", params.getBytes().length+"");
