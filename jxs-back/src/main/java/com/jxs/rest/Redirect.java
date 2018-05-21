@@ -4,7 +4,6 @@ package com.jxs.rest;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.net.*;
@@ -15,8 +14,8 @@ import java.util.Map;
 public class Redirect {
 
     public static final String REDIRECT_URI = "http://localhost:8080/rest/redirect/google";
+    public static final String REDIRECT_URI_DROPBOX = "http://localhost:8080/rest/redirect/dropbox";
     public static final String CLIENT_URL = "http://localhost:4200";
-    public static String google_token = " ";
     public static Login loginDatabase = new Login();
 
     @GET
@@ -28,8 +27,6 @@ public class Redirect {
         String google_token;
         URI client = null;
         try {
-
-            System.out.println("CODE ===== CODEEEEEEEEEEE" + code);
             String url =  "https://www.googleapis.com/oauth2/v4/token";
             CLIENT_ID = "752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com";
             CLIENT_SECRET = "DJ_Ju7W9iF5HL8BYO32mwnxA";
