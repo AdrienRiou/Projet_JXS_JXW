@@ -15,7 +15,7 @@ export class  FileListClass {
   ) {
     this.files = files
   }
-  concatFiles(file:FileListClass){
+  concatFiles(file:FileListClass):void{
     console.log("concatFiles")
     this.files.concat(file.files)
   }
