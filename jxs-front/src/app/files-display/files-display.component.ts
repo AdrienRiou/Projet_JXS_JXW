@@ -78,7 +78,15 @@ export class FilesDisplayComponent implements OnInit {
     this.fs.startDisplay = true
     this.fs.getAllFilesGoogle().subscribe(data  => {
       console.log("RETURN GET ALL = " + data)
-      this.files = <FileListClass>data;
+      let filesGoogle = <FileListClass>data;
+
+      console.log(filesGoogle)
+
+      this.concatF(filesGoogle)
+      console.log("filesGoogle")
+      console.log(this.files)
+      console.log("filesGoogle")
+
 
     });
     console.log("getFilesDropBox")
@@ -87,11 +95,18 @@ export class FilesDisplayComponent implements OnInit {
       console.log(data)
       let filesDrop = <FileListClass>data;
       console.log("getFiles")
-      console.log(this.files)
+      console.log(filesDrop)
       console.log("getFiles")
-      this.files.concatFiles(filesDrop)
+      this.concatF(filesDrop)
     });
 
+  }
+  concatF(files : FileListClass){
+    console.log("concatF")
+    console.log(files.files)
+    this.files.files = files.files.concat(this.files.files)
+    console.log(this.files.files)
+    console.log("concatF")
   }
 
 }
