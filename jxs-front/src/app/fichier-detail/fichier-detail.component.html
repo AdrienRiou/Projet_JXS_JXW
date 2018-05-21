@@ -1,36 +1,37 @@
-<div class="container">
-    <div>
-      <button (click)="delete()">Delete</button>
-    </div>
+<div  *ngIf="!file.isFolder">
+  <div class="container">
+        <input type="text" [(ngModel)]="renameVar" placeholder="new name here">
 
-    <div>
-      <input type="text" [(ngModel)]="renameVar">
-      <button (click)="rename()">Rename</button>
-    </div>
-</div>
+        <button (click)="rename()"  class="btn">Rename</button>
 
-<div class="container">
-  <div class="text-center" id="decoration">
-    <div *ngIf="!file.isFolder">
-      <h2 class="italic">{{ file.name | uppercase }}</h2>
-      <h3>Details :</h3>
+        <button (click)="delete()"  class="btn btn-danger">Delete</button>
+  </div>
 
-      <div>
-        <span class="strong">id: </span>{{file.id}}
-      </div>
-      <div>
-        <span class="strong">size: </span>{{file.size}}
-      </div>
+  <div class="container">
+    <div class="text-center" id="decoration">
       <div >
-        <span class="strong">lastEditDate: </span>{{file.lastEditDate}}
-      </div>
-      <div >
-        <span class="strong">creationDate: </span>{{file.creationDate}}
-      </div>
-      <div>
-        <span class="strong">authors: </span>{{file.authors}}
+        <h2 class="italic">{{ file.name | uppercase }}</h2>
+        <h3>Details :</h3>
+
+        <div>
+          <span class="strong">Id: </span>{{file.id}}
+        </div>
+        <div>
+          <span class="strong">Size: </span>{{file.size}}
+        </div>
+        <div >
+          <span class="strong">Last edit date: </span>{{file.lastEditDate}}
+        </div>
+        <div >
+          <span class="strong">Create date: </span>{{file.creationDate}}
+        </div>
+        <div>
+          <span class="strong">Authors: </span>{{file.authors}}
+        </div>
+        <div>
+          <span class="strong">Cloud service: </span>{{file.service}}
+        </div>
       </div>
     </div>
   </div>
 </div>
-

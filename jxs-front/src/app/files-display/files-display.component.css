@@ -36,3 +36,9 @@ a {
 .file a:hover {
   color:#607D8B;
 }
+
+.bottom-bar {
+  margin-left: 40%;
+  padding-right: 10px; 
+  margin-bottom: 25px;
+}

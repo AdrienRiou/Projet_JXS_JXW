@@ -9,10 +9,10 @@
           [class.selected]="FileClass === selectedFile"
           (click)="onSelect(FileClass)" class="list-group-item col-md-4">
         <div *ngIf="!FileClass.isFolder">
-          <p><span class="glyphicon glyphicon-file"></span></p>
+          <span class="glyphicon glyphicon-file"></span>
         </div>
         <div *ngIf="FileClass.isFolder">
-          <p><span class="glyphicon glyphicon-folder-open"></span></p>
+        <span class="glyphicon glyphicon-folder-open"></span>
         </div>
         <a (click)="onSelect(FileClass)">
           {{FileClass.name}}
@@ -21,6 +21,9 @@
     </ul>
   </div>
 </div>
-<button (click)="back()">Back</button>
-<button (click)="getFiles()">Refresh</button>
+<div class="bottom-bar">
+  <button (click)="back()"  class="btn"><span class="glyphicon glyphicon-arrow-left"></span> Back</button>
+  <button (click)="getFiles()"  class="btn" >Refresh  <span class="glyphicon glyphicon-refresh"></span></button>
+</div>
+
 <!--</div>-->

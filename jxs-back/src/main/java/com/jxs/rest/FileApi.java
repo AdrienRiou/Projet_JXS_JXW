@@ -164,12 +164,30 @@ public class FileApi {
 
 
     @GET
-    @Path("/{service}/remove/{id}")
-    public Response removeFile(@PathParam("service") String service, @PathParam("id") String id, @CookieParam("pseudo") String cookie) {
+    @Path("/{service}/remove")
+    public Response removeFile(@PathParam("service") String service, @QueryParam("id") String id, @CookieParam("pseudo") String cookie) {
         JSONObject json = new JSONObject();
         if(service.equalsIgnoreCase("google")) {
             try {
                 HttpRequest.delete(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google"));
+                json.put("error", 0);
+            } catch (IOException e) {
+                json.put("error", 1);
+                e.printStackTrace();
+            }
+        } else if (service.equalsIgnoreCase("dropbox")) {
+            try {
+                String params = "{ \"entries\" : [" +
+                        "{ \"path\" : \"" + id + "\"" +
+                        "}" +
+                        "]" +
+                        "}";
+                HashMap<String, String> props = new HashMap<>();
+                props.put("Content-Length", params.getBytes().length+"");
+                props.put("Content-Type", "application/json");
+                props.put("Accept", "application/json");
+                props.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
+                HttpRequest.post(DROPBOX_BASE_URI+"/files/delete_batch", params, props, false);
                 json.put("error", 0);
             } catch (IOException e) {
                 json.put("error", 1);
@@ -286,6 +304,8 @@ public class FileApi {
             tmp.put("name", current.get("name"));
             // no way to get authors with dropbox
             tmp.put("authors", new JSONArray());
+            // path
+            tmp.put("path", current.get("destination"));
             // same
             tmp.put("creationDate", "");
             tmp.put("service", "dropbox");
