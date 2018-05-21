@@ -8,6 +8,7 @@
       <li *ngFor="let FileClass of files.files"
           [class.selected]="FileClass === selectedFile"
           (click)="onSelect(FileClass)" class="list-group-item col-md-4">
+        <p><span class="glyphicon glyphicon-file"></span></p>
         <a (click)="onSelect(FileClass)">
           {{FileClass.name}}
         </a>
