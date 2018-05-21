@@ -5,6 +5,7 @@ export class FileClass{
     lastEditDate: string
     creationDate: string
     authors: string[]
+    isFolder : boolean
 }
 
 export interface  FileListClass {

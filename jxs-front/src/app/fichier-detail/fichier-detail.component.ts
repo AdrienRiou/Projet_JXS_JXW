@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FileClass, FileListClass } from '../FileClass';
-import {SharedService} from '../shared.service'
+
 import { Location } from '@angular/common'
 import { ActivatedRoute } from '@angular/router';
 import {FileService} from '../file.service';
@@ -13,7 +13,6 @@ import {FileService} from '../file.service';
 })
 
 export class FichierDetailComponent implements OnInit {
-  ss : SharedService
   local : Location
   subscription : any
   fs : FileService
@@ -23,8 +22,7 @@ export class FichierDetailComponent implements OnInit {
   creationDate:"creationDate", authors:[]  }*/;
   renameVar : string;
 
-  constructor(ss: SharedService, local: Location, fs :FileService) {
-      this.ss = ss
+  constructor(local: Location, fs :FileService) {
       this.local= local
       this.fs = fs
 
@@ -37,15 +35,15 @@ export class FichierDetailComponent implements OnInit {
   }
 
   delete():void{
-    this.fs.removeFile(this.ss.fileSource.getValue().id).subscribe();
-    console.log(this.ss.fileSource.getValue().id);
+    this.fs.removeFile(this.fs.fileSource.getValue().id).subscribe();
+    console.log(this.fs.fileSource.getValue().id);
   }
   rename():void{
     console.log("rename " + this.renameVar)
 
   }
   ngOnInit() {
-    this.ss.fileSource.subscribe(file =>
+    this.fs.fileSource.subscribe(file =>
       this.file = file)
       console.log("ngOnInit " + this.file)
       console.log("rename " + this.renameVar)

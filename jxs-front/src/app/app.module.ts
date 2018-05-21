@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {SharedService} from './shared.service';
+
 import {FileService} from './file.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -36,7 +36,7 @@ import {CookieService} from 'angular2-cookie/core';
     HttpClientModule
 
   ],
-  providers: [SharedService, FileService, CookieService],
+  providers: [FileService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

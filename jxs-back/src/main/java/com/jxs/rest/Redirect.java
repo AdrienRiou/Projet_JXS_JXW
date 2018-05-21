@@ -29,7 +29,7 @@ public class Redirect {
         URI client = null;
         try {
 
-            System.out.println("CODE ===== " + code);
+            System.out.println("CODE ===== CODEEEEEEEEEEE" + code);
             String url =  "https://www.googleapis.com/oauth2/v4/token";
             CLIENT_ID = "752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com";
             CLIENT_SECRET = "DJ_Ju7W9iF5HL8BYO32mwnxA";
