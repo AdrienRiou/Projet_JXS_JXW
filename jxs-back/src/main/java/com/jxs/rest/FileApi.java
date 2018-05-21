@@ -305,7 +305,7 @@ public class FileApi {
             // no way to get authors with dropbox
             tmp.put("authors", new JSONArray());
             // path
-            tmp.put("path", current.get("destination"));
+            //tmp.put("path", current.get("destination"));
             // same
             tmp.put("creationDate", "");
             tmp.put("service", "dropbox");
