@@ -28,11 +28,6 @@ export class FichierDetailComponent implements OnInit {
 
   }
 
-  goBack(): void {
-    this.fs.getAllFiles().subscribe(data  => {
-      this.files = <FileListClass>data;
-    });
-  }
 
   delete():void{
     this.fs.removeFile(this.fs.fileSource.getValue().id).subscribe();

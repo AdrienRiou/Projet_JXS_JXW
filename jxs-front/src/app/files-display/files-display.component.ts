@@ -10,16 +10,16 @@ import {FileService} from '../file.service'
 })
 export class FilesDisplayComponent implements OnInit {
   fs : FileService
-  files : FileListClass
+  files : FileListClass = <FileListClass>{ files : []};
   selectedFile : FileClass;
-  previousFolderId : string = ""
+  previousFolderId : string = "";
   idTab : Array<string> = [""];
   constructor( fs : FileService) {
     this.fs = fs;
 
   }
   onSelect(fileParam : FileClass ):void{
-
+    this.fs.changeService(fileParam.service)
     if(fileParam.isFolder){
       this.fs.getFileFolder(fileParam.id).subscribe(data =>{
         this.files = <FileListClass>data;
@@ -57,9 +57,7 @@ export class FilesDisplayComponent implements OnInit {
     console.log(this.idTab)
     console.log("BACK")
     if(this.idTab[this.idTab.length-1] == ""){
-      this.fs.getAllFiles().subscribe(data  => {
-        this.files = <FileListClass>data;
-      })
+      this.getFiles();
     }
     else{
       this.fs.getFileFolder(this.idTab[this.idTab.length-1]).subscribe(data =>{
@@ -76,13 +74,24 @@ export class FilesDisplayComponent implements OnInit {
   }
 
   getFiles() {
-    console.log("getFiles")
+
     this.fs.startDisplay = true
-    this.fs.getAllFiles().subscribe(data  => {
+    this.fs.getAllFilesGoogle().subscribe(data  => {
       console.log("RETURN GET ALL = " + data)
       this.files = <FileListClass>data;
 
     });
+    console.log("getFilesDropBox")
+    this.fs.getAllFilesDropbox().subscribe(data  => {
+      console.log("RETURN GET ALL = ")
+      console.log(data)
+      let filesDrop = <FileListClass>data;
+      console.log("getFiles")
+      console.log(this.files)
+      console.log("getFiles")
+      this.files.concatFiles(filesDrop)
+    });
+
   }
 
 }

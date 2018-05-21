@@ -17,9 +17,10 @@ export class FileService {
   fileUrl = 'http://localhost:8080/rest/api';
   listFiles : FileClass[] = [];
   public fileSource = new BehaviorSubject<FileClass> ({name:"name", id:"id", lastEditDate:"lastEditDate", size:"size",
-  creationDate:"creationDate", authors:[], isFolder : true  });
+  creationDate:"creationDate", authors:[], isFolder : true, service:""  });
   public fileListDislay = new BehaviorSubject<FileClass[]> ([]);
   startDisplay : boolean = false;
+  public service = new BehaviorSubject<string>("")
 
   currentFile = this.fileSource.asObservable();
 
@@ -29,12 +30,19 @@ export class FileService {
   ) {
     this.http=http
   }
+
   changeFile(file:FileClass){
     this.fileSource.next(file);
   }
+
   changeFileList(fileList:FileClass[]){
     this.fileListDislay.next(fileList);
   }
+
+  changeService(service:string){
+    this.service.next(service);
+  }
+
   getListFiles(){
     return this.listFiles;
   }
@@ -63,13 +71,19 @@ export class FileService {
     return this.http.get(url);
   }
 
-  getAllFiles(){
+  getAllFilesGoogle(){
     const url = this.fileUrl+"/google/root";
+    return this.http.get<FileListClass>(url, {withCredentials: true, headers:null});
+  }
+
+  getAllFilesDropbox(){
+    const url = this.fileUrl+"/dropbox/root";
     return this.http.get<FileListClass>(url, {withCredentials: true, headers:null});
   }
 
   connectUser( pseudo : string ) {
     console.log("ConnectUser");
+    console.log(this.fileUrl)
     const url = this.fileUrl+"/connect?pseudo=" + pseudo;
 
     return this.http.get(url, {withCredentials: true})
