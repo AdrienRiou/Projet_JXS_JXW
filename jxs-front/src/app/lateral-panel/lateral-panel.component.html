@@ -1,31 +1,41 @@
 <div class="container">
+  <form>
+    <div>
+      User: <span *ngIf="pseudo"> {{pseudo}}</span>
+      <input *ngIf="!pseudo" type="text" [(ngModel)]="userName" name="userName"><br>
+      <button *ngIf="!pseudo" (click)="addUser()">Se connecter</button>
+    </div>
+    <button *ngIf="pseudo" (click)="disconnect()">Se déconnecter </button>
+  </form>
+</div>
 
-  <div *ngIf="!google_auth">
-    <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a>
+<div class="container marge">
+  <div class="text-center">
+    <h2>Please, choise your Cloud service before log in</h2>
   </div>
-  <div >
-    <a href="https://www.dropbox.com/1/oauth2/authorize?client_id=ltfpmsjovjpg6fz&response_type=code&redirect_uri=http://localhost:8080/rest/redirect/dropbox"><button type="button" class="btn btn-warning">DropBox non connecté</button></a>
+  <div class="col-md-4 text-center">
+    <div *ngIf="!google_auth">
+      <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-warning">GoogleDrive non connecté</button></a>
+    </div>
   </div>
-  <div *ngIf="google_auth">
-    <button type="button" class="btn btn-success">GoogleDrive connecté !</button>
+  <div class="col-md-4 text-center">
+    <div>
+      <a href="https://www.dropbox.com/1/oauth2/authorize?client_id=ltfpmsjovjpg6fz&response_type=code&redirect_uri=http://localhost:8080/rest/redirect/dropbox"><button type="button" class="btn btn-warning">DropBox non connecté</button></a>
+    </div>
   </div>
-  <div>
-    <label class="btn btn-default btn-file">
-      Browse <input type="file" style="display: none;">
-    </label>
+  <div class="col-md-4 text-center">
+    <div>
+      <a type="button" class="btn btn-warning">PAS ENCORE FAIT</a>
+    </div>
   </div>
+</div>
 
-  <div>
-    <form>
-      <div>
-        User: <span *ngIf="pseudo"> {{pseudo}}</span>
-        <input *ngIf="!pseudo" type="text" [(ngModel)]="userName" name="userName"><br>
-        <button *ngIf="!pseudo" (click)="addUser()">Se connecter</button>
-      </div>
-      <button *ngIf="pseudo" (click)="disconnect()">Se déconnecter </button>
-    </form>
-  </div>
+<div class="container">
+    <div *ngIf="google_auth">
+      <button type="button" class="btn btn-success">GoogleDrive connecté !</button>
+    </div>
+</div>
+
 
   <!-- <a href="https://login.live.com/oauth20_authorize.srf?client_id=1be2662e-496c-42fc-9040-1dbb47b423d0&scope=onedrive.readwrite&response_type=token&redirect_uri=http://localhost:8080"> <button type="button" class="btn btn-warning">OneDrive non connecté</button> </a> -->
   <!-- <a href="https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=eejunrl276f5dbd&redirect_uri=http://localhost:8080"> <button type="button" class="btn btn-warning">DropBox non connecté</button></a> -->
-</div>

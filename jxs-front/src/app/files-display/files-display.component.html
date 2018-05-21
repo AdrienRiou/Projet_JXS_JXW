@@ -7,8 +7,8 @@
     <ul *ngIf="files" class="list-group row">
       <li *ngFor="let FileClass of files.files"
           [class.selected]="FileClass === selectedFile"
-          (click)="onSelect(FileClass)" class="list-group-item col-xs-4">
-        <a  (click)="onSelect(FileClass)">
+          (click)="onSelect(FileClass)" class="list-group-item col-md-4">
+        <a (click)="onSelect(FileClass)">
           {{FileClass.name}}
         </a>
       </li>
