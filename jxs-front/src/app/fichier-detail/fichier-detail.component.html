@@ -1,18 +1,35 @@
+<div class="container">
+    <div>
+      <button (click)="delete()">Delete</button>
+    </div>
 
-<div *ngIf="!file.isFolder">
-
-  <h2>{{ file.name | uppercase }} Details</h2>
-  <div ><span>id: </span>{{file.id}}</div>
-  <div ><span>size: </span>{{file.size}}</div>
-  <div ><span>lastEditDate: </span>{{file.lastEditDate}}</div>
-  <div ><span>creationDate: </span>{{file.creationDate}}</div>
-  <div ><span>authors: </span>{{file.authors}}</div>
-  <div>
-
-  <button (click)="delete()">Delete</button>
-  </div>
-  <input type="text" [(ngModel)]="renameVar">
-  <button (click)="rename()">Rename</button>
-
-
+    <div>
+      <input type="text" [(ngModel)]="renameVar">
+      <button (click)="rename()">Rename</button>
+    </div>
 </div>
+
+<div class="container">
+  <div class="text-center" id="decoration">
+    <div *ngIf="!file.isFolder">
+      <h2 class="italic">{{ file.name | uppercase }} Details</h2>
+
+      <div>
+        <span class="strong">id: </span>{{file.id}}
+      </div>
+      <div>
+        <span class="strong">size: </span>{{file.size}}
+      </div>
+      <div >
+        <span class="strong">lastEditDate: </span>{{file.lastEditDate}}
+      </div>
+      <div >
+        <span class="strong">creationDate: </span>{{file.creationDate}}
+      </div>
+      <div>
+        <span class="strong">authors: </span>{{file.authors}}
+      </div>
+    </div>
+  </div>
+</div>
+
