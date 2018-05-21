@@ -69,7 +69,7 @@ public class FileApi {
                     properties.put("Content-Type", "application/json");
                     properties.put("Accept", "application/json");
                     properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, service));
-                    res = HttpRequest.post(DROPBOX_BASE_URI + "/files/list_folder", params, properties);
+                    res = HttpRequest.post(DROPBOX_BASE_URI + "/files/list_folder", params, properties, false);
                     res = this.universalizeDropboxJsonFile(res);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -111,7 +111,7 @@ public class FileApi {
                 properties.put("Accept", "application/json");
                 System.out.println( Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
                 properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
-                res = HttpRequest.post(DROPBOX_BASE_URI+"/files/list_folder", params, properties);
+                res = HttpRequest.post(DROPBOX_BASE_URI+"/files/list_folder", params, properties,false);
                 res = this.universalizeDropboxJsonFile(res);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -153,7 +153,7 @@ public class FileApi {
                 properties.put("Content-Length", params.getBytes().length+"");
                 properties.put("Content-Type", "application/x-www-form-urlencoded");
 
-                res = HttpRequest.post(GOOGLE_BASE_URI+"/files", params, properties);
+                res = HttpRequest.post(GOOGLE_BASE_URI+"/files", params, properties, false);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -185,7 +185,29 @@ public class FileApi {
         JSONObject json = new JSONObject();
         if(service.equalsIgnoreCase("google")) {
             try {
-                HttpRequest.patch(GOOGLE_BASE_URI+"/files/"+id, "?access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google")+ "&title="+new_name);
+                String params = "{\"name\": \"" + new_name + "\"}";
+                Map<String,String> properties = new HashMap();
+                properties.put("Content-Length", params.getBytes().length+"");
+                properties.put("Content-Type", "application/json");
+                properties.put("Accept", "application/json");
+                properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "google"));
+                 HttpRequest.post(GOOGLE_BASE_URI+"/files/" + id, params, properties,true);
+                json.put("error", 0);
+            } catch (IOException e) {
+                json.put("error", 1);
+                e.printStackTrace();
+            }
+        } else if (service.equalsIgnoreCase("dropbox") ) {
+            try {
+                String params = "{\"title\": \"" + new_name + "\", \"id\": \"" + id + "\"}";
+                System.out.println(params);
+                Map<String,String> properties = new HashMap();
+                properties.put("Content-Length", params.getBytes().length+"");
+                properties.put("Content-Type", "application/json");
+                properties.put("Accept", "application/json");
+                properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
+                String res = HttpRequest.post(DROPBOX_BASE_URI+"/file_requests/update", params, properties,false);
+                System.out.println(res);
                 json.put("error", 0);
             } catch (IOException e) {
                 json.put("error", 1);
