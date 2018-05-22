@@ -21,9 +21,22 @@ a {
 
 .file li:hover {
   color: #607D8B;
-  background-color: #DDD;
   left: .1em;
 }
+
+.dropbox:hover a, .dropbox:hover span {
+  color: #03A9F4 !important;
+}
+
+.google:hover a, .google:hover span {
+  color: #fbbc05 !important;
+}
+
+.btn:hover {
+  background-color: #A9A8A8;
+}
+
+
 
 .file a {
   color: #888;

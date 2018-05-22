@@ -194,6 +194,7 @@ public class FileApi {
         } else if (service.equalsIgnoreCase("dropbox") ) {
             try {
                 // GET THE FILE PATH
+                // The request returns 400 don't know why ...
                 String params = "{\"path\": \"" + id + "\",\"recursive\": false,\"include_media_info\": true,\"include_deleted\": false,\"include_has_explicit_shared_members\": false}";
                 System.out.println(params);
                 Map<String,String> properties = new HashMap();
@@ -205,7 +206,7 @@ public class FileApi {
                 String res = HttpRequest.post(DROPBOX_BASE_URI+"/files/get_metadata", params, properties,false);
                 /*
                 // RENAME THE FILE
-                String params = "{\"title\": \"" + new_name + "\", \"id\": \"" + id + "\"}";
+                String params = "{\"from_path\": \"" + old_path + "\", \"to_path\": \"" + new + "\"}";
                 System.out.println(params);
                 Map<String,String> properties = new HashMap();
                 properties.put("Content-Length", params.getBytes().length+"");

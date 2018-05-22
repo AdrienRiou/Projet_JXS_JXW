@@ -21,10 +21,12 @@ export class FilesDisplayComponent implements OnInit {
   }
   home(){
     this.files.files = [];
+    this.idTab = [""];
     this.getFiles();
   }
 
   navigateTo(folder : FileClass) :void {
+    this.fs.changeService(folder.service)
     if(folder.service=="dropbox"){
       var str = "";
       for(var i = 1;i<this.idTab.length;i++){
