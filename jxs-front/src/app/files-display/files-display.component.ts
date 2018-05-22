@@ -112,7 +112,7 @@ export class FilesDisplayComponent implements OnInit {
         if n1.isFolder {
           return 1;
         } else {
-          return 0
+          return 0;
         }
       })
     }
