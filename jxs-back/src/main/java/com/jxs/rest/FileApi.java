@@ -138,31 +138,6 @@ public class FileApi {
         return Response.ok(res, MediaType.APPLICATION_JSON).build();
     }
 
-
-    // not working yet
-    @POST
-    @Path("/{service}/add/{name}")
-    @Produces("application/json")
-    public Response addFile(@PathParam("service") String service, @PathParam("name") String name, @CookieParam("pseudo") String cookie) {
-        String res = "";
-        if ( service.equalsIgnoreCase("google")) {
-            try {
-                String params = "?access_token="+Redirect.loginDatabase.getTokenFromService(cookie, "google")+"&name="+name;
-
-                Map<String,String> properties = new HashMap<String,String>();
-                properties.put("Content-Length", params.getBytes().length+"");
-                properties.put("Content-Type", "application/x-www-form-urlencoded");
-
-                res = HttpRequest.post(GOOGLE_BASE_URI+"/files", params, properties, false);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return Response.ok(res, MediaType.APPLICATION_JSON).build();
-    }
-
-
     @GET
     @Path("/{service}/remove")
     public Response removeFile(@PathParam("service") String service, @QueryParam("id") String id, @CookieParam("pseudo") String cookie) {
@@ -217,6 +192,18 @@ public class FileApi {
             }
         } else if (service.equalsIgnoreCase("dropbox") ) {
             try {
+                // GET THE FILE PATH
+                String params = "{\"path\": \"" + id + "\",\"recursive\": false,\"include_media_info\": true,\"include_deleted\": false,\"include_has_explicit_shared_members\": false}";
+                System.out.println(params);
+                Map<String,String> properties = new HashMap();
+                properties.put("Content-Type", "application/json");
+                properties.put("Accept", "application/json");
+                String token = Redirect.loginDatabase.getTokenFromService(cookie, "dropbox");
+                System.out.println(token);
+                properties.put("Authorization", "Bearer " + token);
+                String res = HttpRequest.post(DROPBOX_BASE_URI+"/files/get_metadata", params, properties,false);
+                /*
+                // RENAME THE FILE
                 String params = "{\"title\": \"" + new_name + "\", \"id\": \"" + id + "\"}";
                 System.out.println(params);
                 Map<String,String> properties = new HashMap();
@@ -224,7 +211,7 @@ public class FileApi {
                 properties.put("Content-Type", "application/json");
                 properties.put("Accept", "application/json");
                 properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "dropbox"));
-                String res = HttpRequest.post(DROPBOX_BASE_URI+"/file_requests/update", params, properties,false);
+                String res = HttpRequest.post(DROPBOX_BASE_URI+"/files/move_v2", params, properties,false);*/
                 System.out.println(res);
                 json.put("error", 0);
             } catch (IOException e) {
@@ -305,7 +292,6 @@ public class FileApi {
             // no way to get authors with dropbox
             tmp.put("authors", new JSONArray());
             // path
-            //tmp.put("path", current.get("destination"));
             // same
             tmp.put("creationDate", "");
             tmp.put("service", "dropbox");
