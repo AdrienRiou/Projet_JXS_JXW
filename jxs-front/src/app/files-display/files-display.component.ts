@@ -13,66 +13,52 @@ export class FilesDisplayComponent implements OnInit {
   files : FileListClass = <FileListClass>{ files : []};
   selectedFile : FileClass;
   previousFolderId : string = "";
-
   idTab : Array<string> = [""];
-  nomTab
+
   constructor( fs : FileService) {
     this.fs = fs;
 
   }
-  refresh(){
+  home(){
     this.files.files = [];
     this.getFiles();
+  }
+
+  navigateTo(folder : FileClass) :void {
+    if(folder.service=="dropbox"){
+      var str = "";
+      for(var i = 1;i<this.idTab.length;i++){
+        str = str + "/" + this.idTab[i];
+      }
+      str = "id:"+ folder.id;
+      this.fs.getFileFolder(str).subscribe(data =>{
+        this.files = <FileListClass>data;
+
+    })
+    }
+    else{
+
+        this.fs.getFileFolder(folder.id).subscribe(data =>{
+          this.files = <FileListClass>data;
+
+      })
+    }
+    this.idTab.push(folder.id)
   }
 
   onSelect(fileParam : FileClass ):void{
 
     this.fs.changeService(fileParam.service)
-    if(fileParam.isFolder){
-      if(fileParam.service=="dropbox"){
-        var str = "";
-        console.log("hjfskhlksm")
-        console.log(this.idTab)
-        console.log("hjfskhlksm")
-        for(var i = 1;i<this.idTab.length;i++){
-          str = str + "/" + this.idTab[i];
-        }
-        str = "id:"+ fileParam.id;
-        this.fs.getFileFolder(str).subscribe(data =>{
-          this.files = <FileListClass>data;
-
-      })
-
-      }
-      else{
-
-          this.fs.getFileFolder(fileParam.id).subscribe(data =>{
-            this.files = <FileListClass>data;
-
-        })
-      }
-      this.idTab.push(fileParam.id)
-      this.previousFolderId = fileParam.id
-      console.log("ONSELECT")
-      console.log(this.idTab)
-      console.log("ONSELECT")
-
-    }
 
     this.selectedFile = fileParam;
 
     this.fs.changeFile(fileParam);
-    console.log("onSelect")
-    console.log(this.selectedFile)
 
     this.fs.fileSource.subscribe(selectedFile => {
 
       this.selectedFile = selectedFile
     })
 
-
-
-    console.log("END");
   }
 
   back(){
@@ -80,9 +66,6 @@ export class FilesDisplayComponent implements OnInit {
     if(this.idTab.length > 1){
       this.idTab.pop();
     }
-    console.log("BACK")
-    console.log(this.idTab)
-    console.log("BACK")
     if(this.idTab[this.idTab.length-1] == ""){
       this.getFiles();
     }
@@ -98,7 +81,6 @@ export class FilesDisplayComponent implements OnInit {
           this.files = <FileListClass>data;
         }
       )
-
     }
   }
 
@@ -112,36 +94,28 @@ export class FilesDisplayComponent implements OnInit {
 
     this.fs.startDisplay = true
     this.fs.getAllFilesGoogle().subscribe(data  => {
-      console.log("RETURN GET ALL = " + data)
       let filesGoogle = <FileListClass>data;
-
-      console.log(filesGoogle)
-
       this.concatF(filesGoogle)
-      console.log("filesGoogle")
-      console.log(this.files)
-      console.log("filesGoogle")
 
 
     });
-    console.log("getFilesDropBox")
     this.fs.getAllFilesDropbox().subscribe(data  => {
-      console.log("RETURN GET ALL = ")
-      console.log(data)
       let filesDrop = <FileListClass>data;
-      console.log("getFiles")
-      console.log(filesDrop)
-      console.log("getFiles")
       this.concatF(filesDrop)
     });
 
   }
   concatF(files : FileListClass){
-    console.log("concatF")
-    console.log(files.files)
-    this.files.files = files.files.concat(this.files.files)
-    console.log(this.files.files)
-    console.log("concatF")
+    if ( files.files ) {
+      this.files.files = files.files.concat(this.files.files)
+      this.files.files = this.files.files.sort (n1 => {
+        if n1.isFolder {
+          return 1;
+        } else {
+          return 0
+        }
+      })
+    }
   }
 
 }

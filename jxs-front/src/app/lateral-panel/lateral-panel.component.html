@@ -1,21 +1,28 @@
-<div class="container" xmlns="http://www.w3.org/1999/html">
-    <div>
-      Pseudo : <span *ngIf="pseudo"> {{pseudo}}</span>
-      <input *ngIf="!pseudo" type="text" [(ngModel)]="userName" name="userName"><br>
-      <button *ngIf="!pseudo" (click)="addUser()" class="btn btn-success">Se connecter</button>
-    </div>
+
+<div class="container">
+  <div class="connect">
+    Pseudo : <span *ngIf="pseudo"> {{pseudo}}</span>
+  </div>
+  <div class="connect">
+    <input *ngIf="!pseudo" type="text" [(ngModel)]="userName" name="userName"><br>
+  </div>
+  <div class="connect">
+    <button *ngIf="!pseudo" (click)="addUser()" class="btn btn-success">Se connecter</button>
+  </div>
+  <div class="connect">
     <button *ngIf="pseudo" (click)="disconnect()" class="btn btn-danger">Se déconnecter </button>
+  </div>
 </div>
 
-<div class="container marge">
+<div class="container marge" >
   <div class="text-center">
     <h2>Please log in in order to connect your cloud accounts</h2>
   </div>
 </div>
 
-﻿<div class="container" *ngIf="pseudo">
+<div class="container" *ngIf="pseudo">
   <div class="col-md-4 text-center">
-      <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-success">GoogleDrive</button></a>
+    <a href="https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive&access_type=offline&include_granted_scopes=true&state=state_parameter_passthrough_value&response_type=code&client_id=752520275648-e65rp9l865vctpj0535kpoh0bfo5pkd0.apps.googleusercontent.com&redirect_uri=http://localhost:8080/rest/redirect/google"><button type="button" class="btn btn-success">GoogleDrive</button></a>
   </div>
 
   <div class="text-center">
@@ -23,3 +30,4 @@
       <a href="https://www.dropbox.com/1/oauth2/authorize?client_id=ltfpmsjovjpg6fz&response_type=code&redirect_uri=http://localhost:8080/rest/redirect/dropbox"><button type="button" class="btn btn-success">DropBox</button></a>
     </div>
   </div>
+</div>

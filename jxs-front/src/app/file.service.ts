@@ -72,7 +72,7 @@ export class FileService {
 
     const url = this.fileUrl+ "/" + this.service.getValue() + "/rename/"+str+id;
     console.log("renameFile = " + url)
-    return this.http.get(url);
+    return this.http.get(url, {withCredentials: true, headers:null});
   }
 
   removeFile(id : String){

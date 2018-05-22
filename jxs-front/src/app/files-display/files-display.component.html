@@ -1,5 +1,5 @@
 <!--<div *ngIf="fs.startDisplay">-->
-<div class="container">
+<div class="container"  >
   <div class="container">
     <h2> My Files </h2>
   </div>
@@ -7,12 +7,13 @@
     <ul *ngIf="files" class="list-group row file">
       <li *ngFor="let FileClass of files.files"
           [class.selected]="FileClass === selectedFile"
-          (click)="onSelect(FileClass)" class="list-group-item col-md-4">
+           (click)="onSelect(FileClass)" class="list-group-item col-md-4">
         <div *ngIf="!FileClass.isFolder">
           <span class="glyphicon glyphicon-file"></span>
         </div>
         <div *ngIf="FileClass.isFolder">
         <span class="glyphicon glyphicon-folder-open"></span>
+        <button (click)="navigateTo(FileClass)" type="button" class="btn go-button" name="go">Go</button>
         </div>
         <a >
           {{FileClass.name}}
@@ -20,10 +21,10 @@
       </li>
     </ul>
   </div>
-</div>
 <div class="bottom-bar">
   <button (click)="back()"  class="btn"><span class="glyphicon glyphicon-arrow-left"></span>Back</button>
-  <button (click)="refresh()"  class="btn" >Home<span class="glyphicon glyphicon-home"></span></button>
+  <button (click)="home()"  class="btn" >Home<span class="glyphicon glyphicon-home"></span></button>
+</div>
 </div>
 
 <!--</div>-->

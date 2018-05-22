@@ -183,6 +183,7 @@ public class FileApi {
                 properties.put("Content-Length", params.getBytes().length+"");
                 properties.put("Content-Type", "application/json");
                 properties.put("Accept", "application/json");
+                System.out.println(Redirect.loginDatabase.getTokenFromService(cookie, "google"));
                 properties.put("Authorization", "Bearer " + Redirect.loginDatabase.getTokenFromService(cookie, "google"));
                  HttpRequest.post(GOOGLE_BASE_URI+"/files/" + id, params, properties,true);
                 json.put("error", 0);
