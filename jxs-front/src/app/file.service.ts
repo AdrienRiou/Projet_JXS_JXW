@@ -57,18 +57,28 @@ export class FileService {
   }
 
   getFileFolder(id: string){
-    const url = this.fileUrl+"/google/parent?id=" + id;
+    const url = this.fileUrl+"/"+this.service.getValue() +"/parent?id=" + id;
     return this.http.get<FileListClass>(url, {withCredentials: true, headers:null});
   }
 
-  renameFile(id: number){
-    const url = this.fileUrl
+  renameFile(id: string){
+    var str = ""
+    if (this.service.getValue()=="dropbox"){
+      str = "id:"
+    }
+    else{
+      str =""
+    }
+
+    const url = this.fileUrl+ "/" + this.service.getValue() + "/rename/"+str+id;
+    console.log("renameFile = " + url)
+    return this.http.get(url);
   }
 
   removeFile(id : String){
-    const url = this.fileUrl+"/google/remove/" + id;
+    const url = this.fileUrl+"/"+this.service.getValue() +"/remove?id=" + id;
     console.log("remove : this.http.get(url) : " + url);
-    return this.http.get(url);
+    return this.http.get(url, {withCredentials: true, headers:null});
   }
 
   getAllFilesGoogle(){

@@ -14,7 +14,7 @@
         <div *ngIf="FileClass.isFolder">
         <span class="glyphicon glyphicon-folder-open"></span>
         </div>
-        <a (click)="onSelect(FileClass)">
+        <a >
           {{FileClass.name}}
         </a>
       </li>
@@ -22,8 +22,8 @@
   </div>
 </div>
 <div class="bottom-bar">
-  <button (click)="back()"  class="btn"><span class="glyphicon glyphicon-arrow-left"></span> Back</button>
-  <button (click)="getFiles()"  class="btn" >Refresh  <span class="glyphicon glyphicon-refresh"></span></button>
+  <button (click)="back()"  class="btn"><span class="glyphicon glyphicon-arrow-left"></span>Back</button>
+  <button (click)="refresh()"  class="btn" >Home<span class="glyphicon glyphicon-home"></span></button>
 </div>
 
 <!--</div>-->
