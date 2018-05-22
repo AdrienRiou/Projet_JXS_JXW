@@ -30,11 +30,18 @@ export class FichierDetailComponent implements OnInit {
 
 
   delete():void{
+    if (this.fs.service.getValue()=="dropbox"){
+      this.fs.removeFile("id:"+this.fs.fileSource.getValue().id).subscribe();
+      console.log(this.fs.fileSource.getValue().id);
+    }
+    else{
     this.fs.removeFile(this.fs.fileSource.getValue().id).subscribe();
     console.log(this.fs.fileSource.getValue().id);
   }
+  }
   rename():void{
-    console.log("rename " + this.renameVar)
+    console.log("rename " + this.renameVar);
+    this.fs.renameFile(this.fs.fileSource.getValue().id + "/" + this.renameVar).subscribe();
 
   }
   ngOnInit() {

@@ -13,17 +13,44 @@ export class FilesDisplayComponent implements OnInit {
   files : FileListClass = <FileListClass>{ files : []};
   selectedFile : FileClass;
   previousFolderId : string = "";
+
   idTab : Array<string> = [""];
+  nomTab
   constructor( fs : FileService) {
     this.fs = fs;
 
   }
+  refresh(){
+    this.files.files = [];
+    this.getFiles();
+  }
+
   onSelect(fileParam : FileClass ):void{
+
     this.fs.changeService(fileParam.service)
     if(fileParam.isFolder){
-      this.fs.getFileFolder(fileParam.id).subscribe(data =>{
-        this.files = <FileListClass>data;
+      if(fileParam.service=="dropbox"){
+        var str = "";
+        console.log("hjfskhlksm")
+        console.log(this.idTab)
+        console.log("hjfskhlksm")
+        for(var i = 1;i<this.idTab.length;i++){
+          str = str + "/" + this.idTab[i];
+        }
+        str = "id:"+ fileParam.id;
+        this.fs.getFileFolder(str).subscribe(data =>{
+          this.files = <FileListClass>data;
+
       })
+
+      }
+      else{
+
+          this.fs.getFileFolder(fileParam.id).subscribe(data =>{
+            this.files = <FileListClass>data;
+
+        })
+      }
       this.idTab.push(fileParam.id)
       this.previousFolderId = fileParam.id
       console.log("ONSELECT")
@@ -49,7 +76,7 @@ export class FilesDisplayComponent implements OnInit {
   }
 
   back(){
-
+    this.files.files=[]
     if(this.idTab.length > 1){
       this.idTab.pop();
     }
@@ -60,12 +87,20 @@ export class FilesDisplayComponent implements OnInit {
       this.getFiles();
     }
     else{
-      this.fs.getFileFolder(this.idTab[this.idTab.length-1]).subscribe(data =>{
+      if (this.fs.service.getValue()=="dropbox"){
+      this.fs.getFileFolder("id:"+this.idTab[this.idTab.length-1]).subscribe(data =>{
         this.files = <FileListClass>data;
 
       })
+    }
+      else{
+        this.fs.getFileFolder(this.idTab[this.idTab.length-1]).subscribe(data =>{
+          this.files = <FileListClass>data;
+        }
+      )
 
     }
+  }
 
   }
 
