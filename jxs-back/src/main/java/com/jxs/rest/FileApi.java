@@ -14,33 +14,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * file manipulation class, list all or one file, add, delete, update... 
+ * file manipulation class, list all or one file, add, delete, update...
  */
 @Path("api")
 public class FileApi {
 
     public static final String GOOGLE_BASE_URI = "https://www.googleapis.com/drive/v3";
     public static final String DROPBOX_BASE_URI = "https://api.dropboxapi.com/2";
-
-    @GET
-    @Path("/{service}/all")
-    @Produces("application/json")
-    public Response getAllFiles(@PathParam("service") String service, @CookieParam("pseudo") Cookie cookie) {
-        String res = "";
-        if ( service.equalsIgnoreCase("google")) {
-            try {
-                res = HttpRequest.get(GOOGLE_BASE_URI+"/files", "?fields=*&access_token="+Redirect.loginDatabase.getTokenFromService(cookie.getValue()
-                        , "google"), null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-        return Response.ok(this.universalizeGoogleJsonFile(res), MediaType.APPLICATION_JSON)
-                .build();
-
-
-    }
 
     @GET
     @Path("/{service}/root")
