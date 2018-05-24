@@ -111,12 +111,15 @@ public class HttpRequest {
     }
 
 
-    public static String post(String url, String parameters, Map<String,String> properties) throws IOException{
+    public static String post(String url, String parameters, Map<String,String> properties, boolean patch) throws IOException{
         HttpURLConnection connection = null;
         try {
             //Create connection
             URL u = new URL(url);
             connection = (HttpURLConnection)u.openConnection();
+            if ( patch) {
+                connection.setRequestProperty("X-HTTP-Method-Override", "PATCH");
+            }
             connection.setRequestMethod("POST");
 
             checkProperties(properties, connection);

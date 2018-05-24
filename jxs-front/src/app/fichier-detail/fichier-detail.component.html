@@ -1,20 +1,37 @@
+<div >
+  <div class="container">
+        <input type="text" [(ngModel)]="renameVar" placeholder="new name here">
 
-<div *ngIf="file">
+        <button (click)="rename()"  class="btn">Rename</button>
 
-  <h2>{{ file.name | uppercase }} Details</h2>
-  <div ><span>id: </span>{{file.id}}</div>
-  <div ><span>size: </span>{{file.size}}</div>
-  <div ><span>lastEditDate: </span>{{file.lastEditDate}}</div>
-  <div ><span>creationDate: </span>{{file.creationDate}}</div>
-  <div ><span>authors: </span>{{file.authors}}</div>
-  <div>
-
+        <button (click)="delete()"  class="btn btn-danger">Delete</button>
   </div>
-  <button (click)="delete()">Delete</button>
+
+  <div class="container" *ngIf="file.id != 'id'">
+    <div class="text-center" id="decoration">
+      <div >
+        <h2 class="italic">{{ file.name | uppercase }}</h2>
+        <h3>Details :</h3>
+
+        <div>
+          <span class="strong">Id: </span>{{file.id}}
+        </div>
+        <div>
+          <span class="strong">Size: </span>{{file.size}}
+        </div>
+        <div >
+          <span class="strong">Last edit date: </span>{{file.lastEditDate}}
+        </div>
+        <div >
+          <span class="strong">Create date: </span>{{file.creationDate}}
+        </div>
+        <div>
+          <span class="strong">Authors: </span>{{file.authors}}
+        </div>
+        <div>
+          <span class="strong">Cloud service: </span>{{file.service}}
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-  <input type="text" [(ngModel)]="renameVar">
-  <button (click)="rename()">Rename</button>
-
-
 </div>

@@ -2,3 +2,12 @@
   background-color: green;
   height: 500%
 }
+
+.marge {
+  margin-bottom: 30px;
+  color : #009688;
+}
+
+.connect {
+  display: inline-block;
+}

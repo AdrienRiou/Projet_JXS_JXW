@@ -20,6 +20,7 @@ export class LateralPanelComponent implements OnInit {
   userName : string;
   constructor(http : HttpClient, connectedJson : ConnectJsonClass, fs : FileService, cs : CookieService
   ) {
+
     this.cs = cs;
     this.fs = fs;
     this.http=http;
@@ -30,14 +31,18 @@ export class LateralPanelComponent implements OnInit {
     console.log("Connected as : " + this.cs.get("pseudo"))
     this.pseudo = this.cs.get("pseudo");
   }
-
+  refresh(){
+    this.ngOnInit()
+  }
   disconnect(){
     this.fs.disconnectUser().subscribe();
     this.pseudo = null;
   }
 
   addUser() {
+
     this.fs.connectUser(this.userName).subscribe(data  => {
+      console.log("addUser")
       console.log(data);
       this.pseudo = this.cs.get("pseudo");
     });;
