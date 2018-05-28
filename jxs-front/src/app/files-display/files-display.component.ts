@@ -111,7 +111,7 @@ export class FilesDisplayComponent implements OnInit {
     if ( files.files ) {
       this.files.files = files.files.concat(this.files.files)
       this.files.files = this.files.files.sort (n1 => {
-        if n1.isFolder {
+        if (n1.isFolder){
           return 1;
         } else {
           return 0;
